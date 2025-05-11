@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:healthcare/Doctor%20Dashboard/Catagories/Location/location.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
+import '../../UserDashboard/BottomNavbar/Others/BookAppointments.dart';
+import '../Catagories/FindCases/FindCases.dart';
+import '../Catagories/MarkedCases/markedCases.dart';
+
 
 class DrHome extends StatelessWidget {
   final List<Map<String, dynamic>> doctorFeatures = [
@@ -97,11 +102,21 @@ class DrHome extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.medical_services),
-              title: Text('Doctor Profile'),
+              title: Text('Find Cases'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DrHome()),
+                  MaterialPageRoute(builder: (_) => FindCases()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title: Text('Add Location'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LocationScreen()),
                 );
               },
             ),
@@ -149,7 +164,28 @@ class DrHome extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      // Add navigation or feature logic here
+                      String featureName = doctorFeatures[index]['name'];
+                      if (featureName == "Find Cases") {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => FindCases()));
+                      } else if (featureName == "Location") {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => LocationScreen()));
+                      }
+                      else if (featureName == "Mark Cases") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => MarkedCases()),
+                        );
+                      }
+                      else if (featureName == "Appointments") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => BookAppointmentsScreen()),
+                        );
+                      }
+
+                      // Add other feature navigations if needed
                     },
                     child: Card(
                       margin: EdgeInsets.all(8),
@@ -163,8 +199,8 @@ class DrHome extends StatelessWidget {
                           children: [
                             Image.asset(
                               doctorFeatures[index]['image'],
-                              height: 65,  // Adjust image size as needed
-                              width: 65,   // Adjust image size as needed
+                              height: 65,
+                              width: 65,
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -205,9 +241,7 @@ class DrHome extends StatelessWidget {
           ),
         ],
         currentIndex: 0,
-        onTap: (index) {
-
-        },
+        onTap: (index) {},
         selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,

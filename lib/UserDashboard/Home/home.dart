@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../Doctors//DoctorDetailsScreen.dart';
 import '../BottomNavbar/message.dart';
 import 'dart:async';
-import '../BottomNavbar/reels.dart';
+import '../BottomNavbar/Others.dart';
 import '../BottomNavbar/profile.dart';
 import '../../Doctor Dashboard/Home/dr_home.dart';
 import '../Login_Signup/signout.dart';
@@ -79,7 +79,7 @@ class HomePageState extends State<HomePage> {
     } else if (index == 2) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ReelsScreen()),
+        MaterialPageRoute(builder: (context) => OtherScreen()),
       );
     }
     else if (index == 3) {
@@ -247,8 +247,8 @@ class HomePageState extends State<HomePage> {
             label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: 'Reels',
+            icon: Icon(Icons.shield_moon_rounded),
+            label: 'Others',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

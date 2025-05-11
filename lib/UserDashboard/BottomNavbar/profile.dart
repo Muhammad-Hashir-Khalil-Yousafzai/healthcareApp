@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'message.dart';
-import 'reels.dart'; // Import for the Reels Screen
+import 'Others.dart'; // Import for the Reels Screen
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else if (index == 2) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ReelsScreen()),
+        MaterialPageRoute(builder: (context) => OtherScreen()),
       );
     } else {
       setState(() {
@@ -214,8 +214,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: 'Reels',
+            icon: Icon(Icons.shield_moon_rounded),
+            label: 'Others',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

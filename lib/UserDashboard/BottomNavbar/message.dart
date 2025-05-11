@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
-import 'reels.dart';
+import 'Others.dart';
 import 'profile.dart';
 
 class MessageScreen extends StatefulWidget {
@@ -53,7 +53,7 @@ class _MessageScreenState extends State<MessageScreen> {
     } else if (index == 2) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ReelsScreen()),
+        MaterialPageRoute(builder: (context) => OtherScreen()),
       );
     } else if (index == 3) {
       Navigator.pushReplacement(
@@ -205,9 +205,8 @@ class _MessageScreenState extends State<MessageScreen> {
             label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: 'Reels',
-          ),
+            icon: Icon(Icons.shield_moon_rounded),
+            label: 'Others',          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',

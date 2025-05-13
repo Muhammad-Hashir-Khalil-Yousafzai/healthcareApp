@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Location/location.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
-import '../../UserDashboard/BottomNavbar/Others/BookAppointments.dart';
+import '../Catagories/Appointments/Appointments.dart';
 import '../Catagories/FindCases/FindCases.dart';
 import '../Catagories/MarkedCases/markedCases.dart';
 
@@ -181,7 +181,7 @@ class DrHome extends StatelessWidget {
                       else if (featureName == "Appointments") {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => BookAppointmentsScreen()),
+                          MaterialPageRoute(builder: (_) => ManageSlotsScreen()),
                         );
                       }
 

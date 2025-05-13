@@ -1,163 +1,229 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class BookAppointmentsScreen extends StatefulWidget {
-  const BookAppointmentsScreen({super.key});
+class ManageSlotsScreen extends StatefulWidget {
+  const ManageSlotsScreen({super.key});
 
   @override
-  State<BookAppointmentsScreen> createState() => _BookAppointmentsScreenState();
+  State<ManageSlotsScreen> createState() => _ManageSlotsScreenState();
 }
 
-class _BookAppointmentsScreenState extends State<BookAppointmentsScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  String? _selectedSpecialty;
-  String? _selectedDoctor;
+class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
+  int? _slotDuration; // in minutes
+  List<TimeOfDay> _slots = [];
 
-  final Map<String, List<String>> doctorsBySpecialty = {
-    'Cardiologist': ['Dr. Ahsan Iqbal', 'Dr. Rabia Shah'],
-    'Dermatologist': ['Dr. Salman Qureshi', 'Dr. Farah Naz'],
-    'Neurologist': ['Dr. Adnan Malik', 'Dr. Ayesha Khan'],
-    'Dentist': ['Dr. Sana Fatima', 'Dr. Faisal Anwar'],
-  };
+  Map<String, List<TimeOfDay>> savedSlots = {};
 
-  Future<void> _pickDate() async {
+  void _pickDate() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().add(Duration(days: 1)),
+      initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 30)),
+      lastDate: DateTime.now().add(const Duration(days: 90)),
     );
     if (picked != null) {
-      setState(() => _selectedDate = picked);
-    }
-  }
-
-  Future<void> _pickTime() async {
-    TimeOfDay? picked =
-    await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (picked != null) {
-      setState(() => _selectedTime = picked);
-    }
-  }
-
-  void _submitAppointment() {
-    if (_formKey.currentState!.validate() &&
-        _selectedDate != null &&
-        _selectedTime != null) {
-      final appointmentDate =
-      DateFormat('dd MMM yyyy').format(_selectedDate!);
-      final appointmentTime = _selectedTime!.format(context);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              "Appointment booked with $_selectedDoctor on $appointmentDate at $appointmentTime"),
-          backgroundColor: Colors.green,
-        ),
-      );
-
       setState(() {
-        _selectedSpecialty = null;
-        _selectedDoctor = null;
-        _selectedDate = null;
-        _selectedTime = null;
+        _selectedDate = picked;
+        _slots = [];
       });
-    } else {
+    }
+  }
+
+  Future<TimeOfDay?> _pickTime(TimeOfDay initialTime) async {
+    return await showTimePicker(context: context, initialTime: initialTime);
+  }
+
+  void _generateSlots() {
+    if (_selectedDate == null || _startTime == null || _endTime == null || _slotDuration == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Please fill in all fields and select date/time."),
+        const SnackBar(
+          content: Text("Please fill all fields."),
           backgroundColor: Colors.red,
         ),
       );
+      return;
     }
+
+    List<TimeOfDay> slots = [];
+    TimeOfDay current = _startTime!;
+    while (_isBefore(current, _endTime!)) {
+      slots.add(current);
+      current = _addMinutes(current, _slotDuration!);
+    }
+
+    setState(() {
+      _slots = slots;
+    });
+  }
+
+  bool _isBefore(TimeOfDay t1, TimeOfDay t2) {
+    return t1.hour < t2.hour || (t1.hour == t2.hour && t1.minute < t2.minute);
+  }
+
+  TimeOfDay _addMinutes(TimeOfDay time, int minutes) {
+    final dt = DateTime(0, 0, 0, time.hour, time.minute).add(Duration(minutes: minutes));
+    return TimeOfDay(hour: dt.hour, minute: dt.minute);
+  }
+
+  void _saveSlots() {
+    if (_selectedDate != null && _slots.isNotEmpty) {
+      savedSlots[DateFormat('yyyy-MM-dd').format(_selectedDate!)] = _slots;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Slots saved successfully."),
+          backgroundColor: Colors.green,
+        ),
+      );
+      setState(() {
+        _slots = [];
+        _selectedDate = null;
+        _startTime = null;
+        _endTime = null;
+        _slotDuration = null;
+      });
+    }
+  }
+
+  void _viewAllSlots() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ViewAllSlotsScreen(savedSlots: savedSlots),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Appointment', style: TextStyle(color: Colors.white)),
+        title: const Text("Manage Slots", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_view_month, color: Colors.white),
+            tooltip: "View All Slots",
+            onPressed: _viewAllSlots,
+          ),
+        ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(18),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              DropdownButtonFormField<String>(
-                value: _selectedSpecialty,
-                items: doctorsBySpecialty.keys.map((specialty) {
-                  return DropdownMenuItem<String>(
-                    value: specialty,
-                    child: Text(specialty),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Select Specialty',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedSpecialty = value;
-                    _selectedDoctor = null;
-                  });
-                },
-                validator: (value) =>
-                value == null ? 'Please select a specialty' : null,
+        padding: const EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.calendar_today, color: Colors.deepPurple),
+              title: Text(
+                _selectedDate == null
+                    ? "Select Date"
+                    : "Date: ${DateFormat('dd MMM yyyy').format(_selectedDate!)}",
               ),
-              SizedBox(height: 16),
-              if (_selectedSpecialty != null)
-                DropdownButtonFormField<String>(
-                  value: _selectedDoctor,
-                  items: doctorsBySpecialty[_selectedSpecialty]!.map((doctor) {
-                    return DropdownMenuItem<String>(
-                      value: doctor,
-                      child: Text(doctor),
-                    );
-                  }).toList(),
-                  decoration: InputDecoration(
-                    labelText: 'Select Doctor',
-                    border: OutlineInputBorder(),
+              onTap: _pickDate,
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              leading: const Icon(Icons.access_time, color: Colors.deepPurple),
+              title: Text(
+                _startTime == null ? "Select Start Time" : "Start: ${_startTime!.format(context)}",
+              ),
+              onTap: () async {
+                final picked = await _pickTime(TimeOfDay.now());
+                if (picked != null) setState(() => _startTime = picked);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.access_time_filled, color: Colors.deepPurple),
+              title: Text(
+                _endTime == null ? "Select End Time" : "End: ${_endTime!.format(context)}",
+              ),
+              onTap: () async {
+                final picked = await _pickTime(TimeOfDay.now());
+                if (picked != null) setState(() => _endTime = picked);
+              },
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Slot Duration (minutes)",
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) => _slotDuration = int.tryParse(value),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.timelapse, color: Colors.white),
+              label: const Text("Generate Slots", style: TextStyle(color: Colors.white)),
+              onPressed: _generateSlots,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+            ),
+            const SizedBox(height: 20),
+            if (_slots.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Generated Slots:", style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    children: _slots
+                        .map((slot) => Chip(
+                      label: Text(slot.format(context)),
+                      backgroundColor: Colors.deepPurple.shade100,
+                    ))
+                        .toList(),
                   ),
-                  onChanged: (value) => setState(() => _selectedDoctor = value),
-                  validator: (value) =>
-                  value == null ? 'Please select a doctor' : null,
-                ),
-              if (_selectedSpecialty != null) SizedBox(height: 16),
-              ListTile(
-                title: Text(_selectedDate == null
-                    ? 'Select Appointment Date'
-                    : 'Date: ${DateFormat('dd MMM yyyy').format(_selectedDate!)}'),
-                leading: Icon(Icons.calendar_today, color: Colors.deepPurple),
-                onTap: _pickDate,
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.save, color: Colors.white),
+                    label: const Text("Save Slots", style: TextStyle(color: Colors.white)),
+                    onPressed: _saveSlots,
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+                  )
+                ],
               ),
-              Divider(),
-              ListTile(
-                title: Text(_selectedTime == null
-                    ? 'Select Appointment Time'
-                    : 'Time: ${_selectedTime!.format(context)}'),
-                leading: Icon(Icons.access_time, color: Colors.deepPurple),
-                onTap: _pickTime,
-              ),
-              Divider(),
-              SizedBox(height: 20),
-              ElevatedButton.icon(
-                icon: Icon(Icons.check_circle),
-                label: Text('Confirm Appointment'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                ),
-                onPressed: _submitAppointment,
-              ),
-            ],
-          ),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+class ViewAllSlotsScreen extends StatelessWidget {
+  final Map<String, List<TimeOfDay>> savedSlots;
+
+  const ViewAllSlotsScreen({super.key, required this.savedSlots});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("All Slots", style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.deepPurple,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: savedSlots.isEmpty
+          ? const Center(child: Text("No slots available."))
+          : ListView(
+        padding: const EdgeInsets.all(16),
+        children: savedSlots.entries.map((entry) {
+          return Card(
+            child: ExpansionTile(
+              title: Text("Date: ${entry.key}"),
+              children: entry.value
+                  .map((time) => ListTile(
+                leading: const Icon(Icons.schedule, color: Colors.deepPurple),
+                title: Text(time.format(context)),
+                trailing: const Text("Free"), // In real app: check booked/free
+              ))
+                  .toList(),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

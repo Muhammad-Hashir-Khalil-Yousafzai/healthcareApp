@@ -1,17 +1,18 @@
-import 'package:healthcare/UserDashboard/AI_Features/chatbot.dart';
-import 'package:healthcare/UserDashboard/AI_Features/disease_predictor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthcare/UserDashboard/Categories/DiseaseCategory/categories.dart';
 import 'package:healthcare/UserDashboard/Categories/PhysicalFitness/physical_health.dart';
 import 'package:flutter/material.dart';
-import '../Doctors//DoctorDetailsScreen.dart';
+import 'package:healthcare/UserDashboard/Doctors/DoctorDetailsScreen.dart';
+import 'package:healthcare/UserDashboard/Login_Signup/login_screen.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../Doctor Dashboard/Home/chatbot.dart';
+import '../AI_Features/disease_predictor.dart';
 import '../BottomNavbar/message.dart';
 import 'dart:async';
 import '../BottomNavbar/Others.dart';
 import '../BottomNavbar/profile.dart';
 import '../../Doctor Dashboard/Home/dr_home.dart';
-import '../Login_Signup/signout.dart';
-
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,27 +22,21 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _startAutoSlider();
+    _fetchUserData();
+    _fetchDoctors();
+  }
+
   final List<String> sliderImages = [
     'assets/images/slider1.jpeg',
     'assets/images/slider3.jpeg',
     'assets/images/slider2.jpeg',
   ];
 
-  final List<Map<String, String>> doctors = [
-    {'name': 'Dr. John Doe', 'image': 'assets/images/doctor1.png', 'speciality': 'Cardiologist'},
-    {'name': 'Dr. Khayal Khan', 'image': 'assets/images/doctor2.png', 'speciality': 'Neurologist'},
-    {'name': 'Dr. Ajmal Javed', 'image': 'assets/images/doctor3.png', 'speciality': 'Dermatologist'},
-    {'name': 'Dr. Arif Elvi', 'image': 'assets/images/doctor4.png', 'speciality': 'Orthopedist'},
-  ];
-
-  final List<Map<String, String>> categories = [
-    {'title': 'Heart', 'image': 'assets/images/heart2.png'},
-    {'title': 'Mental Health', 'image': 'assets/images/mind.png'},
-    {'title': 'Lungs', 'image': 'assets/images/Lungs.png'},
-    {'title': 'Physical Health', 'image': 'assets/images/fitness.png'},
-    {'title': 'Diabetes', 'image': 'assets/images/diabetes.png'},
-    {'title': 'BP', 'image': 'assets/images/Blood_pressure.png'},
-  ];
 
   final List<Map<String, String>> aiFeatures = [
     {
@@ -56,27 +51,87 @@ class HomePageState extends State<HomePage> {
     },
   ];
 
+  List<Map<String, dynamic>> doctors = [];
+  bool _isLoadingDoctors = true;
+
+  Future<void> _fetchDoctors() async {
+    setState(() {
+      _isLoadingDoctors = true;
+    });
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('doctors')
+      // Limit to 6 featured doctors
+          .get();
+
+      setState(() {
+        doctors = querySnapshot.docs.map((doc) {
+          final data = doc.data();
+          return {
+            'id': doc.id, // Important for navigation
+            'name': data['basicInfo']['name'] ?? 'Dr. Unknown',
+            'image': data['basicInfo']['profileImage'] ??
+                'assets/images/doctor1.png',
+            'specialty':
+            data['professionalInfo']['specialty'] ?? 'General Practitioner',
+            'experience': data['professionalInfo']['experience'] ?? 0,
+            'rating': 4.9, // You can add this to your doctor document
+            'status': data['status']
+          };
+        }).toList();
+        _isLoadingDoctors = false;
+      });
+    } catch (e) {
+      print('Error fetching doctors: $e');
+      setState(() {
+        _isLoadingDoctors = false;
+      });
+    }
+  }
+
+  final List<Map<String, String>> categories = [
+    {'title': 'Heart', 'image': 'assets/images/heart2.png'},
+    {'title': 'Mental Health', 'image': 'assets/images/mind.png'},
+    {'title': 'Lungs', 'image': 'assets/images/Lungs.png'},
+    {'title': 'Physical Health', 'image': 'assets/images/fitness.png'},
+    {'title': 'Diabetes', 'image': 'assets/images/diabetes.png'},
+    {'title': 'BP', 'image': 'assets/images/Blood_pressure.png'},
+  ];
 
   late PageController _pageController;
   late Timer _timer;
 
   final _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    _startAutoSlider();
-  }
+  String? userName;
+  String? userRole;
 
   void _startAutoSlider() {
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       if (_pageController.page == sliderImages.length - 1) {
         _pageController.jumpToPage(0);
       } else {
-        _pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        _pageController.nextPage(
+            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
       }
     });
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (doc.exists) {
+        setState(() {
+          userName = doc['name'] ?? 'User';
+          userRole = doc['role'] ?? 'user';
+        });
+      }
+    }
   }
 
   @override
@@ -97,15 +152,13 @@ class HomePageState extends State<HomePage> {
         context,
         MaterialPageRoute(builder: (context) => OtherScreen()),
       );
-    }
-    else if (index == 3) {
+    } else if (index == 3) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ProfileScreen()),
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +168,8 @@ class HomePageState extends State<HomePage> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.menu, color: Colors.white), // Icon color set to white
+              icon: Icon(Icons.menu,
+                  color: Colors.white), // Icon color set to white
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -133,11 +187,13 @@ class HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white), // Icon color set to white
+            icon: Icon(Icons.notifications,
+                color: Colors.white), // Icon color set to white
             onPressed: () {},
           ),
           PopupMenuButton(
-            icon: Icon(Icons.more_vert, color: Colors.white), // Icon color set to white
+            icon: Icon(Icons.more_vert,
+                color: Colors.white), // Icon color set to white
             itemBuilder: (context) => [
               PopupMenuItem(child: Text("Profile")),
               PopupMenuItem(child: Text("Settings")),
@@ -153,33 +209,32 @@ class HomePageState extends State<HomePage> {
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.deepPurple,
-
               ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center, // Vertically center the items
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage('assets/images/User.png'), // Replace with user's photo
+                    backgroundImage: AssetImage('assets/images/User.png'),
                   ),
                   SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center, // Vertically center the text
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'M Hashir Khalil', // Replace with dynamic user name
+                        userName ?? 'Loading...',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis, // Prevent name overflow
+                          overflow: TextOverflow.ellipsis,
                         ),
                         maxLines: 1,
                       ),
                       SizedBox(height: 5),
                       Text(
-                        'Healthcare App User', // Replace with dynamic user role or status
+                        userRole == 'doctor' ? 'Doctor' : 'Healthcare App User',
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
@@ -191,26 +246,26 @@ class HomePageState extends State<HomePage> {
               ),
             ),
 
-            // Patient / App User Profile
-            ListTile(
-              leading: Icon(Icons.person_pin),
-              title: Text('User Profile'),
-              onTap: () {
-                // Add logic for navigating to the patient or app user section
-              },
-            ),
+            if (userRole == 'patient')
+              ListTile(
+                leading: Icon(Icons.person_pin),
+                title: Text('Patient Profile'),
+                onTap: () {
+                  // Add logic for navigating to the patient or app user section
+                },
+              ),
 
-            // Doctor Profile
-            ListTile(
-              leading: Icon(Icons.medical_services),
-              title: Text('Doctor Profile'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DrHome()), // Navigate to DrHome
-                );
-              },
-            ),
+            if (userRole == 'doctor')
+              ListTile(
+                leading: Icon(Icons.medical_services),
+                title: Text('Doctor Profile'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DrHome()),
+                  );
+                },
+              ),
 
             Divider(), // Adds a separator line for visual clarity
 
@@ -244,13 +299,18 @@ class HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: () {AuthService().logout(context);},
+              onTap: () {
+                FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                });
+              },
             ),
           ],
         ),
       ),
-
-
       body: _selectedIndex == 0 ? _buildHomeContent() : Container(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
@@ -313,8 +373,7 @@ class HomePageState extends State<HomePage> {
           // Categories Section
           _buildCategoriesSection(),
           SizedBox(height: 12),
-          _buildAIFeaturesSection(), // NEW AI Features Section
-
+          _buildAIFeaturesSection(),
         ],
       ),
     );
@@ -326,11 +385,55 @@ class HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Doctors",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple),
           ),
-          SingleChildScrollView(
+          const SizedBox(height: 8),
+          _isLoadingDoctors
+              ? SizedBox(
+            height: 120,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.white,
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 60,
+                          height: 14,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          width: 50,
+                          height: 12,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          )
+              : doctors.isEmpty
+              ? const Text('No doctors found.',
+              style: TextStyle(color: Colors.red))
+              : SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: doctors.map((doctor) {
@@ -340,31 +443,59 @@ class HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DoctorDetailsScreen(
-                          doctorName: doctor['name']!,
-                          doctorSpeciality: doctor['speciality']!,
-                          doctorImage: doctor['image']!,
+                          docId: doctor['id'],
                         ),
                       ),
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(doctor['image']!),
-                          radius: 40,
-                          backgroundColor: Colors.black,
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                doctor['image'] ??
+                                    'assets/images/doctor1.png',
+                              ),
+                              radius: 40,
+                              backgroundColor: Colors.grey[200],
+                              onBackgroundImageError: (_, __) =>
+                              const Icon(Icons.person, size: 40),
+                            ),
+                            if (doctor['status'] == true)
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          doctor['name']!,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          doctor['name'] ?? 'Doctor',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          doctor['speciality']!,
-                          style: TextStyle(color: Colors.grey),
+                          doctor['specialty'] ?? 'Specialist',
+                          style: const TextStyle(color: Colors.grey),
                         ),
                       ],
                     ),
@@ -386,7 +517,10 @@ class HomePageState extends State<HomePage> {
         children: [
           Text(
             "Categories",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple),
           ),
           GridView.builder(
             shrinkWrap: true,
@@ -412,7 +546,8 @@ class HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NewScreen(
-                          categoryTitle: categories[index]['title'] ?? 'Unknown Category',
+                          categoryTitle:
+                          categories[index]['title'] ?? 'Unknown Category',
                         ),
                       ),
                     );
@@ -436,7 +571,8 @@ class HomePageState extends State<HomePage> {
                         SizedBox(height: 8),
                         Text(
                           categories[index]['title']!,
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -448,8 +584,6 @@ class HomePageState extends State<HomePage> {
 
         ],
       ),
-
-
     );
   }
   Widget _buildAIFeaturesSection() {
@@ -508,6 +642,6 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
+
 

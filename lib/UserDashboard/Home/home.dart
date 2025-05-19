@@ -1,3 +1,5 @@
+import 'package:healthcare/UserDashboard/AI_Features/chatbot.dart';
+import 'package:healthcare/UserDashboard/AI_Features/disease_predictor.dart';
 import 'package:healthcare/UserDashboard/Categories/DiseaseCategory/categories.dart';
 import 'package:healthcare/UserDashboard/Categories/PhysicalFitness/physical_health.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +42,20 @@ class HomePageState extends State<HomePage> {
     {'title': 'Diabetes', 'image': 'assets/images/diabetes.png'},
     {'title': 'BP', 'image': 'assets/images/Blood_pressure.png'},
   ];
+
+  final List<Map<String, String>> aiFeatures = [
+    {
+      'title': 'AI Health Consultant',
+      'subtitle': 'Ask health-related queries in natural language.',
+      'image': 'assets/images/ai_consultant.png'
+    },
+    {
+      'title': 'General Disease Predictor',
+      'subtitle': 'Predict disease based on symptoms.',
+      'image': 'assets/images/disease_predictor.png'
+    },
+  ];
+
 
   late PageController _pageController;
   late Timer _timer;
@@ -296,6 +312,9 @@ class HomePageState extends State<HomePage> {
           SizedBox(height: 12),
           // Categories Section
           _buildCategoriesSection(),
+          SizedBox(height: 12),
+          _buildAIFeaturesSection(), // NEW AI Features Section
+
         ],
       ),
     );
@@ -429,6 +448,66 @@ class HomePageState extends State<HomePage> {
 
         ],
       ),
+
+
     );
   }
+  Widget _buildAIFeaturesSection() {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "AI Features",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+          ),
+          SizedBox(height: 8),
+          Column(
+            children: aiFeatures.map((feature) {
+              return Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Container(
+                  height: 80,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Image.asset(
+                      feature['image']!,
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      feature['title']!,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    onTap: () {
+                      if (feature['title'] == 'AI Health Consultant') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChatBotScreen()),
+                        );
+                      } else if (feature['title'] == 'General Disease Predictor') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PredictorScreen()),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
+

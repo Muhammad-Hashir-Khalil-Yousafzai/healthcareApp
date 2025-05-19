@@ -1,63 +1,114 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'non_recommended_foods_screen.dart';
 
 class RecommendedFoodsScreen extends StatefulWidget {
+  final String category;
+
+  RecommendedFoodsScreen({required this.category});
+
   @override
   _RecommendedFoodsScreenState createState() => _RecommendedFoodsScreenState();
 }
 
+
 class _RecommendedFoodsScreenState extends State<RecommendedFoodsScreen> {
   int _currentIndex = 0;
+  bool isLoading = true;
+  List<Map<String, dynamic>> recommendedFoods = [];
 
-  final List<Map<String, String>> recommendedFoods = [
-    {
-      'item': 'Fresh Fruits',
-      'quantity': '2-3 servings/day',
-      'reason': 'Rich in vitamins and antioxidants.',
-      'suitable_time': 'Morning or as a snack',
-      'vitamins_minerals': 'Vitamin C, Potassium, Fiber',
-    },
-    {
-      'item': 'Leafy Vegetables',
-      'quantity': '2 cups/day',
-      'reason': 'High in fiber and nutrients',
-      'suitable_time': 'Lunch or dinner',
-      'vitamins_minerals': 'Vitamin K, Folate, Iron',
-    },
-    {
-      'item': 'Whole Grains',
-      'quantity': '3-5 servings/day',
-      'reason': 'Good source of energy and fiber',
-      'suitable_time': 'Breakfast or lunch',
-      'vitamins_minerals': 'Vitamin B, Magnesium, Fiber',
-    },
-    {
-      'item': 'Low-fat Dairy',
-      'quantity': '1-2 servings/day',
-      'reason': 'Provides calcium and protein',
-      'suitable_time': 'Breakfast or dinner',
-      'vitamins_minerals': 'Calcium, Vitamin D, Protein',
-    },
-    {
-      'item': 'Lean Proteins',
-      'quantity': '50-60 grams/day',
-      'reason': 'muscle repair and growth',
-      'suitable_time': 'Lunch or dinner',
-      'vitamins_minerals': 'Iron, Zinc, Protein',
-    },
-    {
-      'item': 'Nuts and Seeds',
-      'quantity': 'A handful/day',
-      'reason': 'Rich in healthy fats and omega-3',
-      'suitable_time': 'Snack or added to meals',
-      'vitamins_minerals': 'Vitamin E, Omega-3, Mg',
-    },
-  ];
+  late List<Widget> _screens;
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      RecommendedFoodsScreen(category: widget.category),
+      NonRecommendedFoodsScreen(category: widget.category),
+    ];
+    loadRecommendedFoods();
+  }
 
-  final List<Widget> _screens = [
-    RecommendedFoodsScreen(),
-    NonRecommendedFoodsScreen(),
-  ];
+  Future<void> loadRecommendedFoods() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/JasonFiles/diet.json');
+      final List<dynamic> jsonData = json.decode(jsonString);
+
+      setState(() {
+        recommendedFoods = jsonData
+            .where((item) =>
+        item['type'] == 'recommended' &&
+            (item['category']?.toLowerCase() == widget.category.toLowerCase()))
+            .map<Map<String, dynamic>>((item) => Map<String, dynamic>.from(item))
+            .toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error loading JSON: $e");
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to load diet data")),
+      );
+    }
+  }
+
+  Widget buildFoodCard(Map<String, dynamic> food) {
+    return Card(
+      elevation: 6,
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            food['item'] ?? '',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.deepPurple,
+            ),
+          ),
+          SizedBox(height: 8),
+          buildRow('Quantity:', food['quantity']),
+          buildRow('Suitable Time:', food['suitable_time']),
+          buildRow('Vitamins & Minerals:', food['vitamins_minerals']),
+          SizedBox(height: 6),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Reason:', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  food['reason'] ?? '',
+                  textAlign: TextAlign.justify,
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Widget buildRow(String label, String? value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+        Flexible(
+          child: Text(
+            value ?? '',
+            textAlign: TextAlign.right,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,94 +118,14 @@ class _RecommendedFoodsScreenState extends State<RecommendedFoodsScreen> {
         title: Text('Recommended Foods', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
       ),
-      body: ListView.builder(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+          : recommendedFoods.isEmpty
+          ? Center(child: Text("No recommended foods available."))
+          : ListView.builder(
         itemCount: recommendedFoods.length,
         itemBuilder: (context, index) {
-          final food = recommendedFoods[index];
-          return Card(
-            elevation: 6,
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    food['item']!,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Quantity:', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Flexible(
-                        child: Text(
-                          food['quantity']!,
-                          textAlign: TextAlign.right,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Suitable Time:', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Flexible(
-                        child: Text(
-                          food['suitable_time']!,
-                          textAlign: TextAlign.right,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Vitamins & Minerals:', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Flexible(
-                        child: Text(
-                          food['vitamins_minerals']!,
-                          textAlign: TextAlign.right,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 6),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Reason:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          food['reason']!,
-                          textAlign: TextAlign.justify,
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-
+          return buildFoodCard(recommendedFoods[index]);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

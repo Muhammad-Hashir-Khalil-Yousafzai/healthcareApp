@@ -4,6 +4,10 @@ import 'disease_symptoms_screen.dart';
 import 'recovery_symptoms_screen.dart';
 
 class SymptomsNavigationScreen extends StatefulWidget {
+  final String categoryTitle;
+
+  const SymptomsNavigationScreen({super.key, required this.categoryTitle});
+
   @override
   _SymptomsNavigationScreenState createState() => _SymptomsNavigationScreenState();
 }
@@ -11,14 +15,14 @@ class SymptomsNavigationScreen extends StatefulWidget {
 class _SymptomsNavigationScreenState extends State<SymptomsNavigationScreen> {
   int _currentIndex = 1; // Default index set to 1 (Disease Symptoms)
 
-  final List<Widget> _screens = [
-    CauseSymptomsScreen(),
-    DiseaseSymptomsScreen(),
-    RecoverySymptomsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _screens = [
+      CauseSymptomsScreen(categoryTitle: widget.categoryTitle),
+      DiseaseSymptomsScreen(categoryTitle: widget.categoryTitle),
+      RecoverySymptomsScreen(categoryTitle: widget.categoryTitle),
+    ];
+
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -30,7 +34,7 @@ class _SymptomsNavigationScreenState extends State<SymptomsNavigationScreen> {
         },
         selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.warning_amber_rounded),
             label: 'Cause',
@@ -40,7 +44,7 @@ class _SymptomsNavigationScreenState extends State<SymptomsNavigationScreen> {
             label: 'Disease',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.healing), // Recovery icon
+            icon: Icon(Icons.healing),
             label: 'Recovery',
           ),
         ],

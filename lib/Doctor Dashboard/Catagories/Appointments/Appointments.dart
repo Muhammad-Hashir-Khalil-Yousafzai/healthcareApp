@@ -14,8 +14,18 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   TimeOfDay? _endTime;
   int? _slotDuration; // in minutes
   List<TimeOfDay> _slots = [];
+  bool _isLoading = false;
 
   Map<String, List<TimeOfDay>> savedSlots = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _startTime = const TimeOfDay(hour: 9, minute: 0);
+    _endTime = const TimeOfDay(hour: 17, minute: 0);
+    _slotDuration = 10;
+  }
 
   void _pickDate() async {
     DateTime? picked = await showDatePicker(
@@ -36,7 +46,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
     return await showTimePicker(context: context, initialTime: initialTime);
   }
 
-  void _generateSlots() {
+  void _generateSlots() async {
     if (_selectedDate == null || _startTime == null || _endTime == null || _slotDuration == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -47,6 +57,12 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
       return;
     }
 
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 1)); // Simulated delay
+
     List<TimeOfDay> slots = [];
     TimeOfDay current = _startTime!;
     while (_isBefore(current, _endTime!)) {
@@ -56,6 +72,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
 
     setState(() {
       _slots = slots;
+      _isLoading = false;
     });
   }
 
@@ -79,10 +96,10 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
       );
       setState(() {
         _slots = [];
-        _selectedDate = null;
-        _startTime = null;
-        _endTime = null;
-        _slotDuration = null;
+        _selectedDate = DateTime.now();
+        _startTime = const TimeOfDay(hour: 9, minute: 0);
+        _endTime = const TimeOfDay(hour: 17, minute: 0);
+        _slotDuration = 30;
       });
     }
   }
@@ -131,7 +148,7 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
                 _startTime == null ? "Select Start Time" : "Start: ${_startTime!.format(context)}",
               ),
               onTap: () async {
-                final picked = await _pickTime(TimeOfDay.now());
+                final picked = await _pickTime(_startTime ?? TimeOfDay.now());
                 if (picked != null) setState(() => _startTime = picked);
               },
             ),
@@ -141,12 +158,13 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
                 _endTime == null ? "Select End Time" : "End: ${_endTime!.format(context)}",
               ),
               onTap: () async {
-                final picked = await _pickTime(TimeOfDay.now());
+                final picked = await _pickTime(_endTime ?? TimeOfDay.now());
                 if (picked != null) setState(() => _endTime = picked);
               },
             ),
             const SizedBox(height: 10),
             TextFormField(
+              initialValue: _slotDuration?.toString(),
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: "Slot Duration (minutes)",
@@ -155,7 +173,9 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
               onChanged: (value) => _slotDuration = int.tryParse(value),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
+            _isLoading
+                ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+                : ElevatedButton.icon(
               icon: const Icon(Icons.timelapse, color: Colors.white),
               label: const Text("Generate Slots", style: TextStyle(color: Colors.white)),
               onPressed: _generateSlots,
@@ -215,11 +235,13 @@ class ViewAllSlotsScreen extends StatelessWidget {
             child: ExpansionTile(
               title: Text("Date: ${entry.key}"),
               children: entry.value
-                  .map((time) => ListTile(
-                leading: const Icon(Icons.schedule, color: Colors.deepPurple),
-                title: Text(time.format(context)),
-                trailing: const Text("Free"), // In real app: check booked/free
-              ))
+                  .map(
+                    (time) => ListTile(
+                  leading: const Icon(Icons.schedule, color: Colors.deepPurple),
+                  title: Text(time.format(context)),
+                  trailing: const Text("Free"),
+                ),
+              )
                   .toList(),
             ),
           );

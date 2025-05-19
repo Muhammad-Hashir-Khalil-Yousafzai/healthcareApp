@@ -1,0 +1,902 @@
+[
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Practice deep breathing exercises."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't consume alcohol excessively."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't surround yourself with toxic people."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Avoid polluted areas when possible."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't ignore signs of depression or anxiety."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Spend time in nature."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't isolate yourself when feeling low."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Monitor your blood sugar levels regularly."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Maintain a healthy weight."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Use prescribed inhalers correctly."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't neglect dental hygiene."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't eat high-cholesterol foods often."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't binge eat carbs."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't burn trash or plastic."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't eat salty snacks frequently."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Stay up to date on vaccinations."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Eat antioxidant-rich foods."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't eat late at night."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't use gas stoves without ventilation."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Keep healthy snacks on hand."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't consume too much caffeine."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't delay treatment for respiratory infections."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't delay taking insulin or medications."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't sleep too little or irregularly."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Clean your home regularly to avoid mold."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Practice deep breathing techniques."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Exercise regularly to strengthen the heart."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't consume sugary beverages."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Manage stress to avoid glucose spikes."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Set realistic goals and work toward them."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't rely solely on supplements."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't walk barefoot if you have neuropathy."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Eat a low-glycemic index diet."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Limit intake of trans fats and saturated fats."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Engage in strength training weekly."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Do steam inhalation when congested."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Maintain good posture to help lung function."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Talk to friends and family regularly."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't engage in negative self-talk."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't smoke or vape."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Get regular sleep."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't stress excessively."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't expose yourself to secondhand smoke."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Practice breathing exercises daily."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Limit screen time and social media use."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't ignore changes in vision."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Use stairs instead of elevators."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't keep pets if allergic to dander."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't ignore injuries on feet or hands."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Check air quality forecasts before going out."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't skip breakfast."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't neglect physical health."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Get regular blood pressure checkups."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't sleep with electronic devices nearby."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't rely on social media for validation."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Exercise regularly to reduce stress."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Use herbs and spices instead of salt."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't use painkillers excessively."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't delay doctor visits."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't self-medicate with drugs or alcohol."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't rely only on supplements."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Get 7-9 hours of sleep every night."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Drink plenty of water to keep lungs moist."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't forget to warm up before exercise."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Get flu and pneumonia vaccines as advised."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Stay hydrated throughout the day."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Practice proper hygiene."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't lead a sedentary lifestyle."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't skip meals or overeat under stress."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Open windows for ventilation."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Avoid excessive salt and sugar."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't eat canned soups or pickles often."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Eat potassium-rich foods like bananas."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't allow mold to grow indoors."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Wear medical ID if needed."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Express emotions in healthy ways."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't live in damp, unventilated rooms."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't ignore chest pain."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't eat too much processed food."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Get routine cardiovascular screenings."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Engage in creative activities."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Visit your doctor regularly."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Include fiber-rich foods in your diet."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't skip medications."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't compare yourself excessively to others."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Limit salt intake."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't lift heavy objects improperly."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't self-medicate without advice."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't stop medication without consulting a doctor."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't ignore signs of asthma or COPD."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Maintain a regular sleep routine."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Avoid alcohol or drink in moderation."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't ignore family history of heart disease."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Eat balanced meals with all food groups."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Stay physically active to improve lung capacity."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Store insulin properly if using."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Track your carbohydrate intake."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Exercise daily to manage blood pressure."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't smoke or use tobacco."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Keep your living space smoke-free."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't ignore symptoms of illness."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Limit caffeine intake."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't compromise on sleep."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Get vaccinated against flu and hepatitis."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't consume too much alcohol."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't neglect physical activity."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Take medications as prescribed."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't avoid necessary responsibilities due to stress."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't work continuously without breaks."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Wear masks in dusty or smoky environments."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Take breaks and rest when overwhelmed."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Practice mindfulness and meditation."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't consume too much sugar or salt."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Stay hydrated with water."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Practice gratitude daily."
+  },
+  {
+    "category": "Lungs",
+    "type": "do",
+    "text": "Use an air purifier at home."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't be afraid to ask for help."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Plan meals in advance."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't sacrifice sleep for productivity."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Get regular medical checkups."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't bottle up emotions."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't skip breathing treatments if prescribed."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Reduce stress through yoga or meditation."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Use correct posture while sitting."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Monitor blood pressure regularly."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't consume fried or fatty foods daily."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Wear sunscreen when outdoors."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Stay hydrated throughout the day."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't forget to monitor your glucose."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Eat a diet rich in vegetables, fruits, and whole grains."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Stay within a healthy weight range."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't let stress go unmanaged."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't rely solely on fast food."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't stay dehydrated."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Exercise at least 30 minutes a day."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Avoid processed foods."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Check your feet daily for injuries."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't dwell on past mistakes."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't skip regular health check-ups."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Sleep 7-9 hours a night."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't use harmful household chemicals without protection."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't lead a sedentary lifestyle."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't ignore irregular heartbeats."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Take stairs instead of elevators."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Monitor your blood pressure and cholesterol regularly."
+  },
+  {
+    "category": "Diabetes",
+    "type": "do",
+    "text": "Exercise consistently to manage glucose."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't follow crash diets without medical advice."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Stretch before and after workouts."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't eat out frequently."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't consume fast food frequently."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Wash hands regularly."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Walk or cycle instead of driving short distances."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't neglect early signs of lung issues."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Eat a balanced diet for brain health."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Take breaks to walk if you sit a lot."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't skip medications."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't skip meals."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't exercise outdoors in poor air quality."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't lead a sedentary lifestyle."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't use strong perfumes indoors."
+  },
+  {
+    "category": "Lungs",
+    "type": "dont",
+    "text": "Don't ignore persistent coughs."
+  },
+  {
+    "category": "Physical Health",
+    "type": "dont",
+    "text": "Don't ignore minor aches and pains."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Stay hydrated throughout the day."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't overeat during meals."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't smoke or use tobacco."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Get professional counseling if needed."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Take medications consistently."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Stay hydrated."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't skip your exercise routine."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't ignore signs of low or high blood sugar."
+  },
+  {
+    "category": "BP",
+    "type": "do",
+    "text": "Manage stress through meditation."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Use protective gear during sports."
+  },
+  {
+    "category": "Heart",
+    "type": "dont",
+    "text": "Don't consume excessive caffeine."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't ignore high BP symptoms."
+  },
+  {
+    "category": "Diabetes",
+    "type": "dont",
+    "text": "Don't neglect eye and dental checkups."
+  },
+  {
+    "category": "Heart",
+    "type": "do",
+    "text": "Include omega-3 rich foods in your diet."
+  },
+  {
+    "category": "Mental Health",
+    "type": "dont",
+    "text": "Don't overcommit to avoid burnout."
+  },
+  {
+    "category": "Physical Health",
+    "type": "do",
+    "text": "Take breaks from screen time."
+  },
+  {
+    "category": "Mental Health",
+    "type": "do",
+    "text": "Write in a journal to manage thoughts."
+  },
+  {
+    "category": "BP",
+    "type": "dont",
+    "text": "Don't consume too much alcohol."
+  }
+]

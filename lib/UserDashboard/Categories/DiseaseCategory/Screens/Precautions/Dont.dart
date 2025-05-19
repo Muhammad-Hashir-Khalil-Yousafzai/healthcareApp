@@ -1,41 +1,39 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'Do.dart';
 
 class DontsScreen extends StatefulWidget {
+  final String categoryTitle;
+
+  DontsScreen({required this.categoryTitle});
+
   @override
   _DontsScreenState createState() => _DontsScreenState();
 }
 
 class _DontsScreenState extends State<DontsScreen> {
+  List<String> dontsList = [];
   int _currentIndex = 1;
 
-  final List<String> dontsList = [
-    "Don't skip meals.",
-    "Don't ignore mental health.",
-    "Don't overeat.",
-    "Don't stay up too late.",
-    "Don't overwork yourself.",
-    "Don't smoke.",
-    "Don't drink sugary drinks excessively.",
-    "Don't neglect physical activity.",
-    "Don't skip your exercise routine.",
-    "Don't take stress lightly.",
-    "Don't ignore your doctor's advice.",
-    "Don't binge-watch TV for long hours.",
-    "Don't ignore your body’s signals.",
-    "Don't neglect your hygiene.",
-    "Don't drink alcohol excessively.",
-    "Don't stay sedentary for long periods.",
-    "Don't avoid regular check-ups.",
-    "Don't spend too much time on your phone.",
-    "Don't be too hard on yourself.",
-    "Don't skip your vaccinations."
-  ];
+  Future<void> loadDonts() async {
+    final jsonString =
+    await DefaultAssetBundle.of(context).loadString('assets/JasonFiles/precautions.json');
+    final List<dynamic> jsonData = json.decode(jsonString);
+    setState(() {
+      dontsList = jsonData
+          .where((item) =>
+      item['category'] == widget.categoryTitle &&
+          item['type'] == 'dont')
+          .map<String>((item) => item['text'] as String)
+          .toList();
+    });
+  }
 
-  final List<Widget> _screens = [
-    DosScreen(),
-    DontsScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    loadDonts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,26 +82,21 @@ class _DontsScreenState extends State<DontsScreen> {
         currentIndex: _currentIndex,
         selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        elevation: 6,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => _screens[index]),
+              MaterialPageRoute(
+                builder: (context) =>
+                index == 0 ? DosScreen(categoryTitle: widget.categoryTitle) : DontsScreen(categoryTitle: widget.categoryTitle),
+              ),
             );
           });
         },
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle),
-            label: "Do's",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.cancel),
-            label: "Don'ts",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.check_circle), label: "Do's"),
+          BottomNavigationBarItem(icon: Icon(Icons.cancel), label: "Don'ts"),
         ],
       ),
     );

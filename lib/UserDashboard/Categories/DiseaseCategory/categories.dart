@@ -57,18 +57,24 @@ class NewScreen extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   if (item['title'] == 'Diet') {
-                    // Navigate to the Recommended Foods Screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RecommendedFoodsScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => RecommendedFoodsScreen(category: categoryTitle),
+                      ),
                     );
-                  } else if (item['title'] == 'Precautions') {
-                    // Navigate to the Precautions Screen
-                    Navigator.push(
+                  }
+
+                    else if (item['title'] == 'Precautions') {
+                      Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DosScreen()),
-                    );
-                  } else if (item['title'] == 'AI Consultant') {
+                      MaterialPageRoute(
+                      builder: (context) => DosScreen(categoryTitle: categoryTitle),
+                      ),
+                      );
+
+                  }
+                    else if (item['title'] == 'AI Consultant') {
                     // Navigate to the Precautions Screen
                     Navigator.push(
                       context,
@@ -77,7 +83,7 @@ class NewScreen extends StatelessWidget {
                   } else if (item['title'] == 'Symptoms') {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SymptomsNavigationScreen()),
+                      MaterialPageRoute(builder: (context) => SymptomsNavigationScreen(categoryTitle: categoryTitle)),
                     );
 
 

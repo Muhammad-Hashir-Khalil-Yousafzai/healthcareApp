@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../CommonScreens/Diet/recommended_foods_screen.dart';
-import 'Screens/Yoga/yogascreen.dart';
+import 'Screens/BMR/BMRscreen.dart';
 import 'Screens/GYM/gym_screen.dart';
 import 'Screens/BMI Calculator/bmi_prediction_screen.dart';
 import 'Screens/Trainer//gym_trainer_screen.dart';
-// import '../CommonScreens/AI assistant/ai_assistant_screen.dart';
+import 'package:healthcare/UserDashboard/Categories/CommonScreens/AI assistant/ai_assistant_screen.dart';
 
 class PhysicalHealthScreen extends StatelessWidget {
   final String categoryTitle;
@@ -14,7 +15,7 @@ class PhysicalHealthScreen extends StatelessWidget {
 
   final List<Map<String, dynamic>> gridItems = [
     {'title': 'Diet', 'icon': Icons.restaurant},
-    {'title': 'Yoga', 'icon': Icons.self_improvement},
+    {'title': 'BMR', 'icon': Icons.whatshot},
     {'title': 'Gym', 'icon': Icons.fitness_center},
     {'title': 'BMI Prediction', 'icon': Icons.analytics},
     {'title': 'Gym Trainer', 'icon': Icons.group},
@@ -53,16 +54,20 @@ class PhysicalHealthScreen extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   switch (item['title']) {
+
                     case 'Diet':
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RecommendedFoodsScreen()),
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => RecommendedFoodsScreen(category: categoryTitle),
+                      ),
                       );
                       break;
-                    case 'Yoga':
+
+                    case 'BMR':
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => YogaScreen()),
+                        MaterialPageRoute(builder: (context) => BMRScreen()),
                       );
                       break;
                     case 'Gym':
@@ -84,11 +89,12 @@ class PhysicalHealthScreen extends StatelessWidget {
                       );
                       break;
                     case 'AI Assistant':
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => AIAssistantScreen()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AIAssistantScreen()),
+                      );
                       break;
+
                     default:
                       print('${item['title']} tapped in $categoryTitle');
                   }
@@ -114,7 +120,4 @@ class PhysicalHealthScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class AIAssistantScreen {
 }

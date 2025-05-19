@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:healthcare/Doctor%20Dashboard/Catagories/HealthReels/HealthReels.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Location/location.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
+import '../Catagories/Ad Banners/adbanners.dart';
 import '../Catagories/Appointments/Appointments.dart';
 import '../Catagories/FindCases/FindCases.dart';
 import '../Catagories/MarkedCases/markedCases.dart';
@@ -184,6 +186,18 @@ class DrHome extends StatelessWidget {
                           MaterialPageRoute(builder: (_) => ManageSlotsScreen()),
                         );
                       }
+                      else if (featureName == "Add Reels") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => AddReelScreen()),
+                        );
+                      }
+                      else if (featureName == "Ad Banner") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => AddBanner()),
+                        );
+                      }
 
                       // Add other feature navigations if needed
                     },
@@ -239,6 +253,7 @@ class DrHome extends StatelessWidget {
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
+
         ],
         currentIndex: 0,
         onTap: (index) {},

@@ -1,0 +1,1300 @@
+[
+  {
+    "item": "Broccoli",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Vitamin C, Fiber",
+    "reason": "Supports immunity",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Energy Drinks",
+    "quantity": "1 can",
+    "suitable_time": "Afternoon",
+    "vitamins_minerals": "Caffeine, Sugar",
+    "reason": "Bad for mental health",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Heart"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Carrots",
+    "quantity": "1 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Vitamin A, Beta-carotene",
+    "reason": "Improves eyesight",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Broccoli",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Vitamin C, Fiber",
+    "reason": "Supports immunity",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Carrots",
+    "quantity": "1 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Vitamin A, Beta-carotene",
+    "reason": "Improves eyesight",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Mental Health"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Lungs"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Broccoli",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Vitamin C, Fiber",
+    "reason": "Supports immunity",
+    "type": "recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Physical Health"
+  },
+  {
+    "item": "Lentils",
+    "quantity": "1 bowl",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Protein, Iron",
+    "reason": "Helps muscle growth",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Carrots",
+    "quantity": "1 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Vitamin A, Beta-carotene",
+    "reason": "Improves eyesight",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "White Bread",
+    "quantity": "2 slices",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "Refined carbs",
+    "reason": "Spikes blood sugar",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Kidney"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Digestive"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Ice Cream",
+    "quantity": "1 scoop",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Harms digestion",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Broccoli",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Vitamin C, Fiber",
+    "reason": "Supports immunity",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Chips",
+    "quantity": "1 pack",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Salt, Fat",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Carrots",
+    "quantity": "1 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Vitamin A, Beta-carotene",
+    "reason": "Improves eyesight",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Eye"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Lentils",
+    "quantity": "1 bowl",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Protein, Iron",
+    "reason": "Helps muscle growth",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Spinach",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Iron, Vitamin K",
+    "reason": "Boosts blood quality",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Lentils",
+    "quantity": "1 bowl",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Protein, Iron",
+    "reason": "Helps muscle growth",
+    "type": "recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Candy",
+    "quantity": "1 bar",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar",
+    "reason": "Harms dental and metabolic health",
+    "type": "non-recommended",
+    "category": "Skin"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Lentils",
+    "quantity": "1 bowl",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Protein, Iron",
+    "reason": "Helps muscle growth",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Cancer"
+  },
+  {
+    "item": "Blueberries",
+    "quantity": "1/2 cup",
+    "suitable_time": "Snack",
+    "vitamins_minerals": "Antioxidants",
+    "reason": "Helps prevent cancer",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Ice Cream",
+    "quantity": "1 scoop",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Harms digestion",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Soda",
+    "quantity": "1 can",
+    "suitable_time": "Anytime",
+    "vitamins_minerals": "Sugar, Acid",
+    "reason": "Causes weight gain",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Yogurt",
+    "quantity": "1 cup",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Calcium, Probiotics",
+    "reason": "Good for digestion",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Ice Cream",
+    "quantity": "1 scoop",
+    "suitable_time": "Evening",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Harms digestion",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "White Bread",
+    "quantity": "2 slices",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "Refined carbs",
+    "reason": "Spikes blood sugar",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Donuts",
+    "quantity": "2 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Sugar, Fat",
+    "reason": "Leads to diabetes",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Salmon",
+    "quantity": "150g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Omega-3, Protein",
+    "reason": "Supports heart health",
+    "type": "recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "White Bread",
+    "quantity": "2 slices",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "Refined carbs",
+    "reason": "Spikes blood sugar",
+    "type": "non-recommended",
+    "category": "Bones"
+  },
+  {
+    "item": "Banana",
+    "quantity": "1 piece",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Potassium, B6",
+    "reason": "Boosts mental health",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "White Bread",
+    "quantity": "2 slices",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "Refined carbs",
+    "reason": "Spikes blood sugar",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Oats",
+    "quantity": "1 bowl",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "B1, Fiber",
+    "reason": "Controls cholesterol",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Pizza",
+    "quantity": "2 slices",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Sodium",
+    "reason": "Increases blood pressure",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Lentils",
+    "quantity": "1 bowl",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Protein, Iron",
+    "reason": "Helps muscle growth",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "White Bread",
+    "quantity": "2 slices",
+    "suitable_time": "Breakfast",
+    "vitamins_minerals": "Refined carbs",
+    "reason": "Spikes blood sugar",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Processed Meat",
+    "quantity": "100g",
+    "suitable_time": "Dinner",
+    "vitamins_minerals": "Nitrates, Sodium",
+    "reason": "Linked to cancer",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Broccoli",
+    "quantity": "1 cup",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Vitamin C, Fiber",
+    "reason": "Supports immunity",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Energy Drinks",
+    "quantity": "1 can",
+    "suitable_time": "Afternoon",
+    "vitamins_minerals": "Caffeine, Sugar",
+    "reason": "Bad for mental health",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Almonds",
+    "quantity": "10 pcs",
+    "suitable_time": "Morning",
+    "vitamins_minerals": "Vitamin E, Magnesium",
+    "reason": "Improves skin health",
+    "type": "recommended",
+    "category": "Diabetes"
+  },
+  {
+    "item": "Fried Chicken",
+    "quantity": "1 piece",
+    "suitable_time": "Lunch",
+    "vitamins_minerals": "Fat, Cholesterol",
+    "reason": "Bad for heart",
+    "type": "non-recommended",
+    "category": "Diabetes"
+  },
+
+    {
+      "item": "Spinach",
+      "quantity": "1 cup (cooked)",
+      "suitable_time": "Lunch",
+      "vitamins_minerals": "Magnesium, Potassium",
+      "reason": "Helps lower blood pressure",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Beetroot Juice",
+      "quantity": "1 glass",
+      "suitable_time": "Morning",
+      "vitamins_minerals": "Nitrates, Folate",
+      "reason": "Relaxes blood vessels",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Low-fat Yogurt",
+      "quantity": "1 cup",
+      "suitable_time": "Breakfast",
+      "vitamins_minerals": "Calcium, Potassium",
+      "reason": "Supports heart health and BP",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Oatmeal",
+      "quantity": "1 bowl",
+      "suitable_time": "Breakfast",
+      "vitamins_minerals": "Fiber, Magnesium",
+      "reason": "Improves cholesterol and lowers BP",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Garlic",
+      "quantity": "2-3 cloves",
+      "suitable_time": "Any",
+      "vitamins_minerals": "Allicin, Manganese",
+      "reason": "Acts as natural vasodilator",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Salmon",
+      "quantity": "100g",
+      "suitable_time": "Lunch or Dinner",
+      "vitamins_minerals": "Omega-3, Vitamin D",
+      "reason": "Improves artery function",
+      "type": "recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Pickles",
+      "quantity": "Small portion",
+      "suitable_time": "Any",
+      "vitamins_minerals": "Sodium",
+      "reason": "High salt increases BP",
+      "type": "non-recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Canned Soup",
+      "quantity": "1 bowl",
+      "suitable_time": "Dinner",
+      "vitamins_minerals": "Sodium",
+      "reason": "Excess sodium spikes BP",
+      "type": "non-recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Processed Meats",
+      "quantity": "2 slices",
+      "suitable_time": "Lunch",
+      "vitamins_minerals": "Sodium, Saturated Fat",
+      "reason": "Leads to hypertension",
+      "type": "non-recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Instant Noodles",
+      "quantity": "1 packet",
+      "suitable_time": "Lunch",
+      "vitamins_minerals": "Sodium, Preservatives",
+      "reason": "Causes BP elevation",
+      "type": "non-recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Fried Snacks",
+      "quantity": "Small bowl",
+      "suitable_time": "Evening",
+      "vitamins_minerals": "Trans Fat",
+      "reason": "Increases blood pressure and bad cholesterol",
+      "type": "non-recommended",
+      "category": "BP"
+    },
+    {
+      "item": "Cola Drinks",
+      "quantity": "1 can",
+      "suitable_time": "Any",
+      "vitamins_minerals": "Caffeine, Sugar",
+      "reason": "Can raise blood pressure temporarily",
+      "type": "non-recommended",
+      "category": "BP"
+    }
+
+]

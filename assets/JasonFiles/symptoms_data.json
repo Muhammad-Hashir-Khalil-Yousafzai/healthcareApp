@@ -1,0 +1,230 @@
+{
+  "Heart": {
+    "symptoms": [
+      "Chest Pain",
+      "Shortness of Breath",
+      "Irregular Heartbeat",
+      "Fatigue",
+      "Dizziness",
+      "Swelling in Legs",
+      "Cold Sweat",
+      "Nausea",
+      "Lightheadedness",
+      "Palpitations"
+    ],
+    "causes": [
+      "High Blood Pressure",
+      "Smoking",
+      "High Cholesterol",
+      "Obesity",
+      "Diabetes",
+      "Lack of Exercise",
+      "Stress",
+      "Alcohol Abuse",
+      "Family History",
+      "Unhealthy Diet"
+    ],
+    "recovery": [
+      "Gradual Resumption of Physical Activity",
+      "Improved Breathing",
+      "Healthy Diet",
+      "Medication",
+      "Cardiac Rehabilitation",
+      "Quit Smoking",
+      "Stress Management",
+      "Regular Checkups",
+      "Weight Loss",
+      "Controlled Blood Pressure"
+    ]
+  },
+  "Lungs": {
+    "symptoms": [
+      "Coughing",
+      "Wheezing",
+      "Shortness of Breath",
+      "Chest Tightness",
+      "Fatigue",
+      "Frequent Respiratory Infections",
+      "Bluish Lips or Fingertips",
+      "Chronic Mucus Production",
+      "Rapid Breathing",
+      "Hoarseness"
+    ],
+    "causes": [
+      "Smoking",
+      "Air Pollution",
+      "Occupational Hazards",
+      "Genetics",
+      "Respiratory Infections",
+      "Asthma",
+      "Chronic Bronchitis",
+      "Emphysema",
+      "Tuberculosis",
+      "Allergies"
+    ],
+    "recovery": [
+      "Pulmonary Rehabilitation",
+      "Inhalers",
+      "Oxygen Therapy",
+      "Avoiding Triggers",
+      "Healthy Diet",
+      "Quitting Smoking",
+      "Breathing Exercises",
+      "Medications",
+      "Regular Monitoring",
+      "Vaccinations"
+    ]
+  },
+  "Mental Health": {
+    "symptoms": [
+      "Sadness",
+      "Lack of Motivation",
+      "Anxiety",
+      "Mood Swings",
+      "Irritability",
+      "Sleep Disturbance",
+      "Appetite Changes",
+      "Low Energy",
+      "Hopelessness",
+      "Social Withdrawal"
+    ],
+    "causes": [
+      "Stress",
+      "Genetics",
+      "Trauma",
+      "Substance Abuse",
+      "Chronic Illness",
+      "Hormonal Imbalance",
+      "Poor Lifestyle",
+      "Isolation",
+      "Negative Thinking",
+      "Abuse"
+    ],
+    "recovery": [
+      "Therapy",
+      "Exercise",
+      "Medication",
+      "Mindfulness",
+      "Support Groups",
+      "Healthy Diet",
+      "Sleep Hygiene",
+      "Routine Establishment",
+      "Journaling",
+      "Social Support"
+    ]
+  },
+  "Diabetes": {
+    "symptoms": [
+      "Frequent Urination",
+      "Increased Thirst",
+      "Weight Loss",
+      "Fatigue",
+      "Blurred Vision",
+      "Slow Healing",
+      "Numbness in Hands or Feet",
+      "Irritability",
+      "Frequent Infections",
+      "Dry Mouth"
+    ],
+    "causes": [
+      "Genetics",
+      "Obesity",
+      "Lack of Exercise",
+      "Poor Diet",
+      "Insulin Resistance",
+      "Hormonal Disorders",
+      "Pancreatic Diseases",
+      "Medication Side Effects",
+      "Stress",
+      "Infections"
+    ],
+    "recovery": [
+      "Insulin Therapy",
+      "Dietary Changes",
+      "Physical Activity",
+      "Monitoring Blood Sugar",
+      "Medication",
+      "Stress Management",
+      "Regular Checkups",
+      "Weight Management",
+      "Education Programs",
+      "Foot Care"
+    ]
+  },
+  "BP": {
+    "symptoms": [
+      "Headache",
+      "Nosebleeds",
+      "Blurred Vision",
+      "Chest Pain",
+      "Fatigue",
+      "Irregular Heartbeat",
+      "Difficulty Breathing",
+      "Dizziness",
+      "Nausea",
+      "Confusion"
+    ],
+    "causes": [
+      "High Salt Intake",
+      "Stress",
+      "Obesity",
+      "Lack of Physical Activity",
+      "Alcohol",
+      "Smoking",
+      "Genetics",
+      "Kidney Disease",
+      "Hormonal Disorders",
+      "Sleep Apnea"
+    ],
+    "recovery": [
+      "Medication",
+      "Dietary Changes",
+      "Exercise",
+      "Salt Reduction",
+      "Stress Management",
+      "Weight Loss",
+      "Quit Smoking",
+      "Regular Monitoring",
+      "Limit Alcohol",
+      "Sleep Hygiene"
+    ]
+  },
+  "Physical Health": {
+    "symptoms": [
+      "Fatigue",
+      "Joint Pain",
+      "Muscle Weakness",
+      "Back Pain",
+      "Limited Mobility",
+      "Balance Issues",
+      "Swelling",
+      "Bruising",
+      "Stiffness",
+      "Poor Endurance"
+    ],
+    "causes": [
+      "Injury",
+      "Aging",
+      "Poor Posture",
+      "Sedentary Lifestyle",
+      "Nutrient Deficiency",
+      "Chronic Illness",
+      "Obesity",
+      "Repetitive Strain",
+      "Dehydration",
+      "Lack of Sleep"
+    ],
+    "recovery": [
+      "Physical Therapy",
+      "Exercise",
+      "Rest",
+      "Healthy Diet",
+      "Hydration",
+      "Posture Correction",
+      "Pain Management",
+      "Massage Therapy",
+      "Sleep Improvement",
+      "Gradual Strength Training"
+    ]
+  }
+}

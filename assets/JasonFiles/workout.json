@@ -1,0 +1,18 @@
+{
+  "shoulders": [
+    {
+      "workout_name": "Overhead Press",
+      "reps": "3 x 12",
+      "image_path": "assets/images/overhead_press.png",
+      "description": "An excellent compound movement that targets the front and side delts.",
+      "youtube_url": "https://youtube.com/shorts/k6tzKisR3NY?si=W24s2-KqphF7MFvg"
+    },
+    {
+      "workout_name": "Lateral Raise",
+      "reps": "3 x 15",
+      "image_path": "assets/images/lateral_raise.png",
+      "description": "A great isolation exercise to build the side deltoid muscles.",
+      "youtube_url": "https://youtu.be/mr2Ep0sSCIY?feature=shared"
+    }
+  ]
+}

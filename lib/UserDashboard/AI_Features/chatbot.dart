@@ -187,7 +187,7 @@ RULES:
                     Navigator.pop(context);
                   },
                   tileColor: session.id == _currentSession.id
-                      ? Colors.deepPurple.shade100
+                      ? Colors.deepPurple
                       : null,
                 );
               },
@@ -215,7 +215,7 @@ RULES:
   Widget _buildDisclaimerBanner() {
     return Container(
       padding: const EdgeInsets.all(8),
-      color: Colors.deepPurple.shade100,
+      color: Colors.deepPurple,
       child: const Text(
         'Note: This AI provides general health information only. Always consult a real doctor for medical advice.',
         textAlign: TextAlign.center,
@@ -237,7 +237,7 @@ RULES:
             icon: const Icon(Icons.image),
           ),
         ],
-        inputTextStyle: TextStyle(color: Colors.deepPurple.shade900),
+        inputTextStyle: TextStyle(color: Colors.deepPurple),
       ),
       currentUser: currentUser,
       onSend: (msg) {
@@ -246,7 +246,7 @@ RULES:
       },
       messages: messages,
       messageOptions: MessageOptions(
-        currentUserContainerColor: Colors.deepPurple.shade100,
+        currentUserContainerColor: Colors.deepPurple,
         containerColor: Colors.white,
         textColor: Colors.black,
         messageTextBuilder: (message, previousMessage, nextMessage) {
@@ -256,7 +256,7 @@ RULES:
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: message.user == currentUser
-                  ? Colors.deepPurple.shade100
+                  ? Colors.deepPurple
                   : Colors.white,
             ),
             child: Column(
@@ -281,7 +281,7 @@ RULES:
                       fontSize: 16,
                     ),
                     strong: TextStyle(
-                      color: Colors.deepPurple.shade800,
+                      color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

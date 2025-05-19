@@ -215,7 +215,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Colors.deepPurple.withOpacity(0.1),
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Row(

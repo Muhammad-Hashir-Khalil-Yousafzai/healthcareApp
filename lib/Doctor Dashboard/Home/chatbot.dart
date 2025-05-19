@@ -33,7 +33,7 @@ RULES:
 2. Always clarify "I'm an AI assistant"
 3. For emergencies: "This sounds serious. Please call emergency services or go to the nearest hospital immediately"
 4. Never prescribe medications
-5. Suggessts the medicines according to the conditions
+5. Suggest the medicines according to the conditions
 """;
 
   List<ChatMessage> messages = [];
@@ -46,10 +46,9 @@ RULES:
     profileImage: "assets/images/healthguard_icon.png",
   );
 
-  // New: For chat history
   final List<ChatSession> _allSessions = [];
   ChatSession _currentSession =
-      ChatSession(id: DateTime.now().toString(), title: "New Chat");
+  ChatSession(id: DateTime.now().toString(), title: "New Chat");
 
   @override
   void initState() {
@@ -77,18 +76,16 @@ RULES:
   }
 
   Future<void> _saveChatHistory() async {
-    // Update current session messages
     _currentSession = ChatSession(
       id: _currentSession.id,
       title: messages.isNotEmpty
           ? messages.last.text.length > 20
-              ? '${messages.last.text.substring(0, 20)}...'
-              : messages.last.text
+          ? '${messages.last.text.substring(0, 20)}...'
+          : messages.last.text
           : "Empty Chat",
       messages: messages,
     );
 
-    // Replace or add session
     final index = _allSessions.indexWhere((s) => s.id == _currentSession.id);
     if (index >= 0) {
       _allSessions[index] = _currentSession;
@@ -96,7 +93,6 @@ RULES:
       _allSessions.add(_currentSession);
     }
 
-    // Save to storage
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       'chat_sessions',
@@ -121,7 +117,6 @@ RULES:
       messages = session.messages;
     });
   }
-  // ================== END OF NEW METHODS ==================
 
   void _sendSystemPrompt() async {
     await gemini.text(_systemPrompt);
@@ -130,10 +125,11 @@ RULES:
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Updated background
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Virtual Doctor Consultation"),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -151,60 +147,104 @@ RULES:
       body: Column(
         children: [
           _buildDisclaimerBanner(),
-          Expanded(child: _buildChatUI()),
-          if (_isTyping) _buildTypingIndicator(),
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(child: _buildChatUI()),
+                if (_isTyping) _buildTypingIndicator(), // ← Now just above input
+              ],
+            ),
+          ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _startNewChat,
-      //   child: const Icon(Icons.add),
-      //   backgroundColor: Colors.blue[800],
-      // ),
+
+
     );
   }
 
   Widget _buildChatHistoryDrawer() {
     return Drawer(
-      child: Column(
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Center(
-              child: Text(
-                'Your Chats',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.chat_bubble_outline, color: Colors.white, size: 40),
+                    SizedBox(height: 10),
+                    Text(
+                      'Your Consultations',
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _allSessions.length,
-              itemBuilder: (ctx, index) {
-                final session = _allSessions[index];
-                return ListTile(
-                  title: Text(session.title),
-                  subtitle: Text(
-                    '${session.messages.length} messages',
-                    style: const TextStyle(fontSize: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _deleteChat(session.id),
-                  ),
-                  onTap: () {
-                    _switchChat(session.id);
-                    Navigator.pop(context);
-                  },
-                  tileColor:
-                      session.id == _currentSession.id ? Colors.blue[50] : null,
-                );
-              },
+                  minimumSize: const Size.fromHeight(45),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _startNewChat();
+                },
+                icon: const Icon(Icons.add, color: Colors.white),
+                label: const Text("Start New Chat", style: TextStyle(color: Colors.white)),
+              ),
             ),
-          ),
-        ],
+            const Divider(height: 20, thickness: 1),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+              child: Text("Previous Sessions", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            Expanded(
+              child: _allSessions.isEmpty
+                  ? const Center(child: Text("No chat history found."))
+                  : ListView.separated(
+                itemCount: _allSessions.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (ctx, index) {
+                  final session = _allSessions[index];
+                  final bool isCurrent = session.id == _currentSession.id;
+                  return ListTile(
+                    leading: const Icon(Icons.chat, color: Colors.deepPurple),
+                    title: Text(session.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    subtitle: Text("${session.messages.length} messages", style: const TextStyle(fontSize: 12)),
+                    tileColor: isCurrent ? Colors.deepPurple.shade50 : null,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () => _deleteChat(session.id),
+                    ),
+                    onTap: () {
+                      _switchChat(session.id);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   Future<void> _deleteChat(String sessionId) async {
     setState(() {
@@ -223,11 +263,11 @@ RULES:
   Widget _buildDisclaimerBanner() {
     return Container(
       padding: const EdgeInsets.all(8),
-      color: Colors.blue[50],
+      color: Colors.deepPurple.shade50,
       child: const Text(
         'Note: This AI provides general health information only. Always consult a real doctor for medical advice.',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+        style: TextStyle(fontSize: 12, color: Colors.black87),
       ),
     );
   }
@@ -235,66 +275,64 @@ RULES:
   Widget _buildChatUI() {
     return DashChat(
       inputOptions: InputOptions(
+        inputTextStyle: const TextStyle(color: Colors.black),
+        inputDecoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          hintText: 'Type your message...',
+          hintStyle: const TextStyle(color: Colors.black54),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25),
+            borderSide: BorderSide(color: Colors.deepPurple)
+          ),
+        ),
         trailing: [
           IconButton(
-            icon: const Icon(Icons.medical_information),
+            icon: const Icon(Icons.medical_information, color: Colors.deepPurple),
             onPressed: _showHealthTips,
           ),
           IconButton(
             onPressed: _sendMediaMessage,
-            icon: const Icon(Icons.image),
+            icon: const Icon(Icons.image, color: Colors.deepPurple),
           ),
         ],
-        inputTextStyle: TextStyle(color: Colors.blue[900]),
       ),
       currentUser: currentUser,
       onSend: (msg) {
         _sendMessage(msg);
-        _saveChatHistory(); // Auto-save after each message
+        _saveChatHistory();
       },
       messages: messages,
       messageOptions: MessageOptions(
-        currentUserContainerColor: Colors.blue[100],
-        containerColor: Colors.grey,
+        currentUserContainerColor: Colors.white,
+        containerColor: Colors.deepPurple.shade50,
         textColor: Colors.black,
-        messageTextBuilder: (message, previousMessage, nextMessage) {
+        messageTextBuilder: (message, _, __) {
           return Container(
-            padding: const EdgeInsets.all(12),
-            margin: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.only(left: 15, right: 15,top: 10,bottom: 10),
             decoration: BoxDecoration(
               color: message.user == currentUser
-                  ? Colors.blue[50]
-                  : Colors.grey[50],
+                  ? Colors.deepPurple.shade50
+                  : Colors.deepPurple.shade50,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: message.user == currentUser
-                    ? Colors.blue[100]!
-                    : Colors.grey[300]!,
-              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (message.user != currentUser)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      'Dr. AI',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[800],
-                      ),
+                  Text(
+                    'Dr. AI',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
                     ),
                   ),
                 MarkdownBody(
                   data: message.text,
                   styleSheet: MarkdownStyleSheet(
-                    p: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16,
-                    ),
+                    p: const TextStyle(color: Colors.black87, fontSize: 16),
                     strong: TextStyle(
-                      color: Colors.blue[800],
+                      color: Colors.deepPurple.shade800,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -306,9 +344,6 @@ RULES:
       ),
     );
   }
-
-  // ... [Keep all your existing methods (_buildTypingIndicator, _sendMessage,
-  // _extractResponse, _sendMediaMessage, _showDisclaimer, _showHealthTips)]
 
   Widget _buildTypingIndicator() {
     return const Padding(
@@ -374,19 +409,17 @@ RULES:
 
   String _extractResponse(dynamic event) {
     String response = event.content?.parts?.fold(
-            "",
+        "",
             (previous, current) =>
-                "$previous ${current is TextPart ? current.text : ''}") ??
+        "$previous ${current is TextPart ? current.text : ''}") ??
         "";
 
-    // Ensure the AI doesn't present itself as human
     if (response.contains("Your Name") ||
         response.contains("[Your title]") ||
         response.contains("physician") ||
         response.contains("nurse")) {
       response =
-          "I'm HealthGuard AI, your virtual healthcare assistant. $response";
-      // debugPrint(response);
+      "I'm HealthGuard AI, your virtual healthcare assistant. $response";
     }
 
     return response;
@@ -419,10 +452,10 @@ RULES:
         title: const Text("Medical Disclaimer"),
         content: const Text(
           "This AI assistant provides general health information only and cannot:\n\n"
-          "• Diagnose medical conditions\n"
-          "• Replace professional medical advice\n"
-          "• Prescribe treatments\n\n"
-          "For emergencies, call your local emergency number immediately.",
+              "• Diagnose medical conditions\n"
+              "• Replace professional medical advice\n"
+              "• Prescribe treatments\n\n"
+              "For emergencies, call your local emergency number immediately.",
         ),
         actions: [
           TextButton(
@@ -443,7 +476,6 @@ RULES:
   }
 }
 
-// ================== NEW METHODS FOR CHAT HISTORY ==================
 class ChatSession {
   final String id;
   final String title;
@@ -456,10 +488,10 @@ class ChatSession {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'messages': messages.map((m) => m.toJson()).toList(),
-      };
+    'id': id,
+    'title': title,
+    'messages': messages.map((m) => m.toJson()).toList(),
+  };
 
   factory ChatSession.fromJson(Map<String, dynamic> json) {
     return ChatSession(

@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'package:healthcare/UserDashboard/Login_Signup/authgate.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -26,7 +27,7 @@ class HealthcareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Authgate(),
+      home: HomePage(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.deepPurple, // Deep purple background color

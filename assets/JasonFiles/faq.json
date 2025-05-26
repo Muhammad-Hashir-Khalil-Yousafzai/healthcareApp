@@ -1,0 +1,18 @@
+[
+  {
+    "question": "What are the symptoms of fever?",
+    "answer": "A mild fever includes temperature above 100.4°F, chills, and body aches. Rest, hydrate, and monitor symptoms."
+  },
+  {
+    "question": "How to treat a headache?",
+    "answer": "Headaches can result from dehydration, stress, or poor sleep. Drink water, rest, and take mild pain relief if necessary."
+  },
+  {
+    "question": "What is a healthy BMI range?",
+    "answer": "BMI = weight(kg) / [height(m)]². A healthy BMI is between 18.5 and 24.9."
+  },
+  {
+    "question": "What diet is good for diabetes?",
+    "answer": "Focus on whole grains, vegetables, lean proteins, and avoid sugary foods. Exercise regularly and follow medical advice."
+  }
+]

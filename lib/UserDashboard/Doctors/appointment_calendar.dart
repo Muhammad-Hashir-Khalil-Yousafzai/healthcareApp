@@ -3,6 +3,19 @@ import 'package:table_calendar/table_calendar.dart';
 import 'time_slots.dart';
 
 class AppointmentCalendar extends StatefulWidget {
+  final String doctorId;
+  final String userId;
+  final String userName;
+  final String userEmail;
+
+  const AppointmentCalendar(
+      {Key? key,
+        required this.doctorId,
+        required this.userId,
+        required this.userName,
+        required this.userEmail})
+      : super(key: key);
+
   @override
   _AppointmentCalendarState createState() => _AppointmentCalendarState();
 }
@@ -67,7 +80,8 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
                       firstDay: DateTime.utc(2022, 1, 1),
                       lastDay: DateTime.utc(2030, 12, 31),
                       focusedDay: _focusedDay,
-                      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                      selectedDayPredicate: (day) =>
+                          isSameDay(_selectedDay, day),
                       onDaySelected: (selectedDay, focusedDay) {
                         setState(() {
                           _selectedDay = selectedDay;
@@ -111,7 +125,8 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -137,33 +152,38 @@ class _AppointmentCalendarState extends State<AppointmentCalendar> {
                 const SizedBox(height: 20),
 
                 // Confirm Appointment button
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TimeSlots(selectedDate: _selectedDay),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TimeSlotsScreen(
+                          selectedDate: _selectedDay,
+                          doctorId: widget.doctorId,
+                          userId: widget.userId,
+                          userName: widget.userName,
+                          userEmail: widget.userEmail,
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  child: const Text(
+                    'Next: Select Time Slot',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              backgroundColor: Colors.deepPurple,
-            ),
-            child: const Text(
-              'Next: Select Time Slot',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-
-          ],
+              ],
             ),
           ),
         ),

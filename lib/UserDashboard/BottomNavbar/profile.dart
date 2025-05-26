@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
+import '../../Doctor Dashboard/Home/chatbot.dart';
+import '../AI_Features/disease_predictor.dart';
+import 'Others/HealthBot.dart';
 import 'message.dart';
-import 'Others.dart'; // Import for the Reels Screen
+import 'Others.dart';
 
-class ProfileScreen extends StatefulWidget {
+class AiFeaturesScreen extends StatefulWidget {
+  const AiFeaturesScreen({super.key});
+
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _AiFeaturesScreenState createState() => _AiFeaturesScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AiFeaturesScreenState extends State<AiFeaturesScreen> {
   int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
@@ -34,193 +39,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  final List<Map<String, String>> aiFeatures = [
+    {
+      'title': 'AI Health Consultant',
+      'subtitle': 'Ask health-related queries in natural language.',
+      'image': 'assets/images/ai_consultant.png'
+    },
+    {
+      'title': 'General Disease Predictor',
+      'subtitle': 'Predict disease based on symptoms.',
+      'image': 'assets/images/disease_predictor.png'
+    },
+    {
+      'title': 'FAQs ChatBot',
+      'subtitle': 'Get instant answers to common health questions.',
+      'image': 'assets/images/FAQ.png'
+    },
+  ];
+
+  Widget _buildAIFeaturesSection() {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: aiFeatures.map((feature) {
+          return Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Container(
+              height: 80,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Image.asset(
+                  feature['image']!,
+                  height: 50,
+                  width: 50,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(
+                  feature['title']!,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+
+                onTap: () {
+                  if (feature['title'] == 'AI Health Consultant') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatBotScreen()),
+                    );
+                  } else if (feature['title'] == 'General Disease Predictor') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PredictorScreen()),
+                    );
+                  } else if (feature['title'] == 'FAQs ChatBot') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HealthBotScreen()),
+                    );
+                  }
+                },
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Profile',style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.deepPurple,
-          iconTheme: IconThemeData(color: Colors.white)),
+        title: Text('AI Features', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.deepPurple,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Profile Header
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage(
-                        'assets/images/doctor2.png'), // Use your image URL here
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    // This will prevent overflow by making the text wrap or shrink within the available space
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Muhammad Hashir Khalil',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepPurple,
-                          ),
-                          overflow: TextOverflow
-                              .ellipsis, // Adds ellipsis when text overflows
-                          maxLines: 1, // Ensures the text is on a single line
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Software Developer',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Spacer(),
-                  // IconButton(
-                  //   icon: Icon(Icons.edit, color: Colors.deepPurple),
-                  //   onPressed: () {
-                  //     // Navigate to edit profile screen
-                  //   },
-                  // ),
-                ],
-              ),
-              SizedBox(height: 30),
-
-              // Bio Section
-              Text(
-                'Bio',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'A passionate software developer with expertise in Flutter and web technologies. Focused on building high-quality, user-friendly applications that solve real-world problems.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[800],
-                ),
-              ),
-              SizedBox(height: 30),
-
-              // Contact Info Section
-              Text(
-                'Contact Info',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.email, color: Colors.deepPurple),
-                  SizedBox(width: 8),
-                  Text(
-                    'hashir@example.com',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.phone, color: Colors.deepPurple),
-                  SizedBox(width: 8),
-                  Text(
-                    '+123 456 7890',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-
-              // Social Media Links Section
-              Text(
-                'Social Media',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.link, color: Colors.deepPurple),
-                  SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      'https://www.linkedin.com/in/hashir',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[800],
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.link, color: Colors.deepPurple),
-                  SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      'https://github.com/hashir',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[800],
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        child: _buildAIFeaturesSection(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Messages',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shield_moon_rounded),
-            label: 'Others',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
+          BottomNavigationBarItem(icon: Icon(Icons.shield_moon_rounded), label: 'Others'),
+          BottomNavigationBarItem(icon: Icon(Icons.smart_toy), label: 'AI Features'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

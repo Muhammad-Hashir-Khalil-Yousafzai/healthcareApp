@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Ad%20Banners/adbanners.dart';
@@ -5,6 +6,7 @@ import 'package:healthcare/Doctor%20Dashboard/Catagories/HealthReels/HealthReels
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Location/location.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/chatbot.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/message_screen.dart';
+import 'package:healthcare/Doctor%20Dashboard/Home/postArticles.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/upload_chat.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/dr_profile_screen.dart';
 import 'package:healthcare/UserDashboard/Login_Signup/login_screen.dart';
@@ -40,7 +42,7 @@ class _DrHomeState extends State<DrHome> {
     _screens = [
       _buildHomeScreen(),
       DoctorMessageScreen(),
-      DrOtherScreen(),
+      PostArticles(),
       ProfileScreen(),
     ];
   }
@@ -84,11 +86,15 @@ class _DrHomeState extends State<DrHome> {
                         MaterialPageRoute(builder: (_) => MarkedCases()),
                       );
                     } else if (featureName == "Appointments") {
+                      final doctorId = FirebaseAuth.instance.currentUser?.uid ?? '';
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => ManageSlotsScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => ManageSlotsScreen(doctorId: doctorId),
+                        ),
                       );
                     }
+
                     else if (featureName == "Ad Banner") {
                       Navigator.push(
                         context,
@@ -327,11 +333,3 @@ class _DrHomeState extends State<DrHome> {
   }
 }
 
-class DrOtherScreen extends StatelessWidget {
-  const DrOtherScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Others Screen'));
-  }
-}

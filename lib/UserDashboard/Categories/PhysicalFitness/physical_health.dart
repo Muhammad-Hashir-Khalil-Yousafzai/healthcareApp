@@ -91,7 +91,7 @@ class PhysicalHealthScreen extends StatelessWidget {
                     case 'AI Assistant':
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AIAssistantScreen()),
+                        MaterialPageRoute(builder: (context) => AIAssistantScreen(categoryTitle: categoryTitle,)),
                       );
                       break;
 

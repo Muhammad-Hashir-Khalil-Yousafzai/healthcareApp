@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthcare/Doctor%20Dashboard/Catagories/FindCases/FindCases.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/BookAppointments.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/BookedAppointments.dart';
+import 'package:healthcare/UserDashboard/BottomNavbar/Others/DoctorDiaries.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/DoctorReelsScreen.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/EmergencyGuidance.dart';
+import 'package:healthcare/UserDashboard/BottomNavbar/Others/FindCases.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/HealthBot.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/PatientsDiaries.dart';
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/TopDoctors.dart';
@@ -10,6 +14,7 @@ import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'message.dart';
 import 'profile.dart';
 import 'Others/ShareYourStories.dart';
+
 
 class OtherScreen extends StatefulWidget {
   const OtherScreen({super.key});
@@ -37,7 +42,7 @@ class _OtherScreenState extends State<OtherScreen> {
     } else if (index == 3) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(builder: (context) => AiFeaturesScreen()),
       );
     } else {
       setState(() {
@@ -60,9 +65,67 @@ class _OtherScreenState extends State<OtherScreen> {
         padding: EdgeInsets.all(10),
         children: [
           ListTile(
+            leading: Icon(Icons.person, color: Colors.deepPurple),
+            title: Text('Get Your Doctor'),
+            subtitle: Text('Let doctors discover and respond to your case voluntarily.'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      FindCasesPage(),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0); // slide from right
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+
+                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                    final offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(position: offsetAnimation, child: child);
+                  },
+                ),
+              );
+            },
+
+          ),
+
+          Divider(),
+
+
+          ListTile(
+            leading: Icon(Icons.article, color: Colors.deepPurple),
+            title: Text("Doctor's Digest"),
+            subtitle: Text('Health articles of professionals for healthy lifestyles'),
+            trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      DoctorDiaries(),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0); // slide from right
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+
+                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                    final offsetAnimation = animation.drive(tween);
+
+                    return SlideTransition(position: offsetAnimation, child: child);
+                  },
+                ),
+              );
+            },
+
+          ),
+          Divider(),
+
+          ListTile(
             leading: Icon(Icons.campaign, color: Colors.deepPurple),
             title: Text('Share Your Health Story'),
-            subtitle: Text('Let doctors discover and respond to your case voluntarily.'),
+            subtitle: Text('Share your real lide recovery story to help others.'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               Navigator.push(
@@ -85,6 +148,7 @@ class _OtherScreenState extends State<OtherScreen> {
             },
 
           ),
+
           Divider(),
 
           ListTile(
@@ -115,7 +179,7 @@ class _OtherScreenState extends State<OtherScreen> {
 
           ListTile(
             leading: Icon(Icons.movie, color: Colors.deepPurple),
-            title: Text('Doctor Reels'),
+            title: Text('Health Shorts'),
             subtitle: Text('Watch short videos from certified healthcare experts.'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
@@ -139,32 +203,6 @@ class _OtherScreenState extends State<OtherScreen> {
             },             ),
           Divider(),
 
-          ListTile(
-            leading: Icon(Icons.chat_bubble_outline, color: Colors.deepPurple),
-            title: Text('HealthBot – Ask & Learn'),
-            subtitle: Text('Get instant answers to common health questions.'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      HealthBotScreen(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                    const begin = Offset(1.0, 0.0); // slide from right
-                    const end = Offset.zero;
-                    const curve = Curves.easeInOut;
-
-                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                    final offsetAnimation = animation.drive(tween);
-
-                    return SlideTransition(position: offsetAnimation, child: child);
-                  },
-                ),
-              );
-            },
-          ),
-          Divider(),
 
           // Additional Creative and Valuable Items
           ListTile(
@@ -196,7 +234,7 @@ class _OtherScreenState extends State<OtherScreen> {
 
           ListTile(
             leading: Icon(Icons.schedule, color: Colors.deepPurple),
-            title: Text('Book Appointments'),
+            title: Text('Booked Appointments'),
             subtitle: Text('Schedule with trusted specialists nearby.'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
@@ -264,8 +302,8 @@ class _OtherScreenState extends State<OtherScreen> {
             label: 'Others',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.smart_toy),
+            label: 'Ai Features',
           ),
         ],
         currentIndex: _selectedIndex,

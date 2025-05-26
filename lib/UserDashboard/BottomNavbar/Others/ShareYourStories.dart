@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'MyPostedCasesPage.dart';
+import 'MyPostedStoriesPage.dart';
 
 class ShareYourStoriesPage extends StatefulWidget {
   const ShareYourStoriesPage({super.key});
@@ -62,7 +62,7 @@ class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyPostedCasesPage()),
+                MaterialPageRoute(builder: (context) => MyPostedstoriesPage()),
               );
             },
             tooltip: 'My Cases',

@@ -8,6 +8,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
+
+
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
 
@@ -112,7 +114,7 @@ class _MessageScreenState extends State<MessageScreen> {
     } else if (index == 3) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(builder: (context) => AiFeaturesScreen()),
       );
     } else {
       setState(() {
@@ -365,8 +367,8 @@ class _MessageScreenState extends State<MessageScreen> {
             label: 'Others',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.smart_toy),
+            label: 'Ai Features',
           ),
         ],
         currentIndex: _selectedIndex,

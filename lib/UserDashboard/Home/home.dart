@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcare/UserDashboard/Doctors/DoctorDetailsScreen.dart';
 import 'package:healthcare/UserDashboard/Login_Signup/login_screen.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../Doctor Dashboard/Home/chatbot.dart';
-import '../AI_Features/disease_predictor.dart';
+import '../BottomNavbar/Others/BookedAppointments.dart';
 import '../BottomNavbar/message.dart';
 import 'dart:async';
 import '../BottomNavbar/Others.dart';
@@ -155,7 +154,7 @@ class HomePageState extends State<HomePage> {
     } else if (index == 3) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(builder: (context) => AiFeaturesScreen()),
       );
     }
   }
@@ -271,10 +270,14 @@ class HomePageState extends State<HomePage> {
 
             // Bookmark Section
             ListTile(
-              leading: Icon(Icons.bookmark),
-              title: Text('Bookmarks'),
+              leading: Icon(Icons.schedule),
+              title: Text('Booked Appointments'),
               onTap: () {
-                // Add logic for navigating to the bookmarks section
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookedAppointmentsScreen()),
+                );
+
               },
             ),
 
@@ -288,6 +291,13 @@ class HomePageState extends State<HomePage> {
             ),
             Divider(), // Adds a separator line for visual clarity
 
+            ListTile(
+              leading: Icon(Icons.copyright),
+              title: Text('Credits'),
+              onTap: () {
+                // Add logic for navigating to the contact us section
+              },
+            ),
             // Settings Section
             ListTile(
               leading: Icon(Icons.settings),
@@ -327,8 +337,8 @@ class HomePageState extends State<HomePage> {
             label: 'Others',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.smart_toy),
+            label: 'Ai Features',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -373,7 +383,6 @@ class HomePageState extends State<HomePage> {
           // Categories Section
           _buildCategoriesSection(),
           SizedBox(height: 12),
-          _buildAIFeaturesSection(),
         ],
       ),
     );
@@ -457,7 +466,7 @@ class HomePageState extends State<HomePage> {
                           alignment: Alignment.bottomRight,
                           children: [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: AssetImage(
                                 doctor['image'] ??
                                     'assets/images/doctor1.png',
                               ),
@@ -586,62 +595,7 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _buildAIFeaturesSection() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "AI Features",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple),
-          ),
-          SizedBox(height: 8),
-          Column(
-            children: aiFeatures.map((feature) {
-              return Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Container(
-                  height: 80,
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Image.asset(
-                      feature['image']!,
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      feature['title']!,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    onTap: () {
-                      if (feature['title'] == 'AI Health Consultant') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChatBotScreen()),
-                        );
-                      } else if (feature['title'] == 'General Disease Predictor') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PredictorScreen()),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
+
 }
 
 

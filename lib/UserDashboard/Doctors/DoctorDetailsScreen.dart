@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'appointment_calendar.dart';
 
 class DoctorDetailsScreen extends StatefulWidget {
@@ -56,6 +57,12 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch user info (replace with your actual user fetching logic if needed)
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userId = currentUser?.uid ?? '';
+    final userName = currentUser?.displayName ?? 'User';
+    final userEmail = currentUser?.email ?? '';
+
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(
@@ -439,7 +446,12 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AppointmentCalendar(),
+                                builder: (context) => AppointmentCalendar(
+                                  doctorId: widget.docId,
+                                  userId: userId,
+                                  userName: userName,
+                                  userEmail: userEmail,
+                                ),
                               ),
                             );
                           },
@@ -454,8 +466,6 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                           child: const Text(
                             'Book Appointment',
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
@@ -474,16 +484,15 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.deepPurple,
-        ),
-      ),
-    );
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.deepPurple,
+          ),
+        ));
   }
 
   Widget _buildStatItem(String label, double percentage) {

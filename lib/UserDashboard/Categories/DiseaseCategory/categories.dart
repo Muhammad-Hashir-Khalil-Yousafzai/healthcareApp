@@ -74,18 +74,18 @@ class NewScreen extends StatelessWidget {
                       );
 
                   }
-                    else if (item['title'] == 'AI Consultant') {
-                    // Navigate to the Precautions Screen
+                  else if (item['title'] == 'AI Consultant') {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AIAssistantScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => AIAssistantScreen(categoryTitle: categoryTitle)),
                     );
-                  } else if (item['title'] == 'Symptoms') {
+                  }
+                  else if (item['title'] == 'Symptoms') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SymptomsNavigationScreen(categoryTitle: categoryTitle)),
                     );
-
 
                   } else if (item['title'] == 'Prediction') {
                     // Navigate to category-specific Prediction Screen
@@ -110,6 +110,7 @@ class NewScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) => DiabetesPredictionScreen()),
                       );
+
                     }
                     else if (categoryTitle == 'BP') {
                       Navigator.push(

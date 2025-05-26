@@ -27,7 +27,7 @@ class HealthcareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: Authgate(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.deepPurple, // Deep purple background color

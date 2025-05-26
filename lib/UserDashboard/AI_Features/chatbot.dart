@@ -7,6 +7,7 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'model/chat_message_extension.dart';
 
 class ChatBotScreen extends StatefulWidget {
   const ChatBotScreen({super.key});
@@ -33,7 +34,7 @@ RULES:
 2. Always clarify "I'm an AI assistant"
 3. For emergencies: "This sounds serious. Please call emergency services or go to the nearest hospital immediately"
 4. Never prescribe medications
-5. Suggessts the medicines according to the conditions
+5. Suggests the medicines according to the conditions
 """;
 
   List<ChatMessage> messages = [];
@@ -43,7 +44,7 @@ RULES:
     id: "1",
     firstName: "HealthGuard",
     lastName: "AI",
-    profileImage: "assets/images/healthguard_icon.png",
+    profileImage: "assets/images/Assistant.png",
   );
 
   final List<ChatSession> _allSessions = [];
@@ -53,6 +54,7 @@ RULES:
   @override
   void initState() {
     super.initState();
+    _startNewChat(); // Always start with a new session
     _sendSystemPrompt();
     _loadChatHistory();
   }
@@ -63,9 +65,17 @@ RULES:
 
     if (sessionsJson != null) {
       final List<dynamic> decoded = jsonDecode(sessionsJson);
+
       setState(() {
-        _allSessions
-            .addAll(decoded.map((json) => ChatSession.fromJson(json)).toList());
+        _allSessions.addAll(decoded.map((json) {
+          return ChatSession(
+            id: json['id'],
+            title: json['title'],
+            messages: (json['messages'] as List)
+                .map((m) => ChatMessageJson.fromJsonFull(m))
+                .toList(),
+          );
+        }).toList());
       });
 
       if (_allSessions.isNotEmpty) {
@@ -76,16 +86,21 @@ RULES:
   }
 
   Future<void> _saveChatHistory() async {
+    // Clone messages list to ensure latest state is captured
+    List<ChatMessage> currentMessages = List.from(messages);
+
+    // Update the current session with a suitable title and current messages
     _currentSession = ChatSession(
       id: _currentSession.id,
-      title: messages.isNotEmpty
-          ? messages.last.text.length > 20
-          ? '${messages.last.text.substring(0, 20)}...'
-          : messages.last.text
+      title: currentMessages.isNotEmpty
+          ? currentMessages.last.text.length > 20
+          ? '${currentMessages.last.text.substring(0, 20)}...'
+          : currentMessages.last.text
           : "Empty Chat",
-      messages: messages,
+      messages: currentMessages,
     );
 
+    // Replace or add the current session
     final index = _allSessions.indexWhere((s) => s.id == _currentSession.id);
     if (index >= 0) {
       _allSessions[index] = _currentSession;
@@ -93,12 +108,17 @@ RULES:
       _allSessions.add(_currentSession);
     }
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'chat_sessions',
-      jsonEncode(_allSessions.map((s) => s.toJson()).toList()),
-    );
+    // Wait for frame to finish to ensure latest UI state is captured
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        'chat_sessions',
+        jsonEncode(_allSessions.map((s) => s.toJson()).toList()),
+      );
+    });
   }
+
+
 
   void _startNewChat() {
     setState(() {
@@ -125,7 +145,7 @@ RULES:
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9F7FB), // Lighter lavender-tinted background
+      backgroundColor: const Color(0xFFF9F7FB),
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Virtual Doctor Consultation"),
@@ -137,10 +157,12 @@ RULES:
             tooltip: 'Medical disclaimer',
             onPressed: _showDisclaimer,
           ),
-          IconButton(
-            icon: const Icon(Icons.history),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.history),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          )
         ],
       ),
       drawer: _buildChatHistoryDrawer(),
@@ -159,7 +181,7 @@ RULES:
       child: Column(
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.deepPurple),
+            decoration: const BoxDecoration(color: Colors.deepPurple),
             child: const Center(
               child: Text(
                 'Your Chats',
@@ -237,12 +259,11 @@ RULES:
             icon: const Icon(Icons.image),
           ),
         ],
-        inputTextStyle: TextStyle(color: Colors.deepPurple),
+        inputTextStyle: const TextStyle(color: Colors.deepPurple),
       ),
       currentUser: currentUser,
       onSend: (msg) {
         _sendMessage(msg);
-        _saveChatHistory();
       },
       messages: messages,
       messageOptions: MessageOptions(
@@ -263,16 +284,16 @@ RULES:
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (message.user != currentUser)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      'Dr. AI',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(bottom: 4),
+                  //   child: Text(
+                  //     'Dr. AI',
+                  //     style: const TextStyle(
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.deepPurple,
+                  //     ),
+                  //   ),
+                  // ),
                 MarkdownBody(
                   data: message.text,
                   styleSheet: MarkdownStyleSheet(
@@ -280,7 +301,7 @@ RULES:
                       color: Colors.black87,
                       fontSize: 16,
                     ),
-                    strong: TextStyle(
+                    strong: const TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
                     ),
@@ -327,34 +348,63 @@ RULES:
         images = [File(chatMessage.medias!.first.url).readAsBytesSync()];
       }
 
+      ChatMessage aiMessage = ChatMessage(
+        user: doctorAI,
+        createdAt: DateTime.now(),
+        text: '',
+      );
+
+      setState(() {
+        messages = [aiMessage, ...messages];
+      });
+
       gemini.streamGenerateContent(prompt, images: images).listen((event) {
-        ChatMessage? lastMessage = messages.firstOrNull;
-        if (lastMessage != null && lastMessage.user == doctorAI) {
-          lastMessage = messages.removeAt(0);
-          String response = _extractResponse(event);
-          lastMessage.text += response;
-          setState(() {
-            messages = [lastMessage!, ...messages];
-          });
-        } else {
-          String response = _extractResponse(event);
-          ChatMessage message = ChatMessage(
-            user: doctorAI,
-            createdAt: DateTime.now(),
-            text: response,
+        String chunk = _extractResponse(event);
+        setState(() {
+          messages[0] = messages[0].copyWith(
+            text: messages[0].text + chunk,
           );
-          setState(() {
-            messages = [message, ...messages];
-          });
-        }
-      }, onDone: () {
-        setState(() => _isTyping = false);
+        });
+      }, onDone: () async {
+        setState(() {
+          _isTyping = false;
+          _currentSession.messages = messages; // Sync latest messages
+        });
+        await _saveChatHistory(); // Save after sync
+      }, onError: (error) {
+        setState(() {
+          _isTyping = false;
+        });
+        ChatMessage errorMsg = ChatMessage(
+          user: doctorAI,
+          createdAt: DateTime.now(),
+          text:
+          "Sorry, there was an issue processing your message. Please try again.",
+        );
+        setState(() {
+          messages = [errorMsg, ...messages];
+        });
       });
     } catch (e) {
-      print(e);
-      setState(() => _isTyping = false);
+      setState(() {
+        _isTyping = false;
+      });
+      ChatMessage errorMsg = ChatMessage(
+        user: doctorAI,
+        createdAt: DateTime.now(),
+        text:
+        "An unexpected error occurred. Please check your input or try again later.",
+      );
+      setState(() {
+        messages = [errorMsg, ...messages];
+      });
     }
   }
+
+
+
+
+
 
   String _extractResponse(dynamic event) {
     String response = event.content?.parts?.fold(
@@ -439,16 +489,32 @@ class ChatSession {
   Map<String, dynamic> toJson() => {
     'id': id,
     'title': title,
-    'messages': messages.map((m) => m.toJson()).toList(),
+    'messages': messages.map((m) => ChatMessageJson(m).toJsonFull()).toList(),
   };
+
 
   factory ChatSession.fromJson(Map<String, dynamic> json) {
     return ChatSession(
       id: json['id'],
       title: json['title'],
-      messages: (json['messages'] as List)
-          .map((m) => ChatMessage.fromJson(m))
-          .toList(),
+      messages:
+      (json['messages'] as List).map((m) => ChatMessageJson.fromJsonFull(m)).toList(),
+    );
+  }
+}
+
+extension ChatMessageCopyWith on ChatMessage {
+  ChatMessage copyWith({
+    String? text,
+    DateTime? createdAt,
+    ChatUser? user,
+    List<ChatMedia>? medias,
+  }) {
+    return ChatMessage(
+      user: user ?? this.user,
+      createdAt: createdAt ?? this.createdAt,
+      text: text ?? this.text,
+      medias: medias ?? this.medias,
     );
   }
 }

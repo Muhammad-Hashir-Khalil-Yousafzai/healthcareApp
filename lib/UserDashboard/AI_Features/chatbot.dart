@@ -277,7 +277,7 @@ RULES:
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: message.user == currentUser
-                  ? Colors.deepPurple
+                  ? Colors.white
                   : Colors.white,
             ),
             child: Column(
@@ -286,13 +286,6 @@ RULES:
                 if (message.user != currentUser)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      '',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
                   ),
                 MarkdownBody(
                   data: message.text,

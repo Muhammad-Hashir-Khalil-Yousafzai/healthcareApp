@@ -410,23 +410,17 @@ IDENTITY: "I'm HealthGuard AI, your physical health guide."
               borderRadius: BorderRadius.circular(12),
 
               color: message.user == currentUser
-                  ? Colors.deepPurple[100]
-                  : Colors.white,
+                  ? Colors.deepPurple.shade50
+
+                  : Colors.deepPurple.shade50,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (message.user != currentUser)
-                  // Padding(
-                  //   padding: const EdgeInsets.only(bottom: 4),
-                  //   child: Text(
-                  //     'Dr. AI',
-                  //     style: TextStyle(
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Colors.deepPurple,
-                  //     ),
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                  ),
                 MarkdownBody(
                   data: message.text,
                   styleSheet: MarkdownStyleSheet(

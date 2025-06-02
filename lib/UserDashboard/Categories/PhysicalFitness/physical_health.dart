@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../CommonScreens/AI assistant/ai_assistant_screen.dart';
 import '../CommonScreens/Diet/recommended_foods_screen.dart';
 import 'Screens/BMR/BMRscreen.dart';
 import 'Screens/GYM/gym_screen.dart';
 import 'Screens/BMI Calculator/bmi_prediction_screen.dart';
 import 'Screens/Trainer//gym_trainer_screen.dart';
-import 'package:healthcare/UserDashboard/Categories/CommonScreens/AI assistant/ai_assistant_screen.dart';
+// import 'package:healthcare/UserDashboard/Categories/CommonScreens/AI assistant/ai_assistant_screen.dart';
 
 class PhysicalHealthScreen extends StatelessWidget {
   final String categoryTitle;

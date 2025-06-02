@@ -12,7 +12,7 @@ import 'package:healthcare/UserDashboard/BottomNavbar/Others/PatientsDiaries.dar
 import 'package:healthcare/UserDashboard/BottomNavbar/Others/TopDoctors.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'message.dart';
-import 'profile.dart';
+import 'AI_Features.dart';
 import 'Others/ShareYourStories.dart';
 
 

@@ -4,13 +4,14 @@ import 'package:healthcare/UserDashboard/Categories/DiseaseCategory/categories.d
 import 'package:healthcare/UserDashboard/Categories/PhysicalFitness/physical_health.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcare/UserDashboard/Doctors/DoctorDetailsScreen.dart';
+import 'package:healthcare/UserDashboard/Home/patient_profile.dart';
 import 'package:healthcare/UserDashboard/Login_Signup/login_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import '../BottomNavbar/Others/BookedAppointments.dart';
 import '../BottomNavbar/message.dart';
 import 'dart:async';
 import '../BottomNavbar/Others.dart';
-import '../BottomNavbar/profile.dart';
+import '../BottomNavbar/AI_Features.dart';
 import '../../Doctor Dashboard/Home/dr_home.dart';
 
 class HomePage extends StatefulWidget {
@@ -248,9 +249,12 @@ class HomePageState extends State<HomePage> {
             if (userRole == 'patient')
               ListTile(
                 leading: Icon(Icons.person_pin),
-                title: Text('Patient Profile'),
+                title: Text('Profile'),
                 onTap: () {
-                  // Add logic for navigating to the patient or app user section
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PatientProfile()),
+                  );
                 },
               ),
 

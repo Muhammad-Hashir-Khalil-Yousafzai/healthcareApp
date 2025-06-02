@@ -318,8 +318,8 @@ class _DrHomeState extends State<DrHome> {
             label: 'Messages',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            activeIcon: Icon(Icons.video_library, size: 28),
+            icon: Icon(Icons.article),
+            activeIcon: Icon(Icons.article, size: 28),
             label: 'Others',
           ),
           BottomNavigationBarItem(

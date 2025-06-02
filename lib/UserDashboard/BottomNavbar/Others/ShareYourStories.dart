@@ -1,7 +1,15 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'MyPostedStoriesPage.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(home: ShareYourStoriesPage()));
+}
 
 class ShareYourStoriesPage extends StatefulWidget {
   const ShareYourStoriesPage({super.key});
@@ -11,42 +19,83 @@ class ShareYourStoriesPage extends StatefulWidget {
 }
 
 class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
+  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _storyController = TextEditingController();
   String? _selectedCategory;
   final List<String> _categories = ['General', 'Surgery', 'Mental Health', 'Recovery', 'Other'];
-  File? _selectedImage;
+  bool _isSubmitting = false;
+  String? _currentUserId;
+  String? _currentUserName; // Store user's name here
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+  @override
+  void initState() {
+    super.initState();
+    _fetchCurrentUser();
+  }
 
-    if (picked != null) {
-      setState(() {
-        _selectedImage = File(picked.path);
-      });
+  void _fetchCurrentUser() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final usersSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: currentUser.email)
+          .limit(1)
+          .get();
+
+      if (usersSnapshot.docs.isNotEmpty) {
+        final userDoc = usersSnapshot.docs.first;
+        setState(() {
+          _currentUserId = userDoc.id;
+          _currentUserName = userDoc.data()['name'] ?? 'Unknown'; // get name field
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User not found in users collection.')),
+        );
+      }
     }
   }
 
-  void _submitStory() {
-    if (_storyController.text.trim().isEmpty || _selectedCategory == null || _selectedImage == null) {
+  void _submitStory() async {
+    if (_titleController.text.trim().isEmpty ||
+        _storyController.text.trim().isEmpty ||
+        _selectedCategory == null ||
+        _currentUserId == null ||
+        _currentUserName == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please complete all fields and attach a report')),
+        SnackBar(content: Text('Please complete all fields.')),
       );
       return;
     }
 
-    // Submit logic here (send to Firebase/local DB)
+    setState(() => _isSubmitting = true);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Story submitted successfully!')),
-    );
+    try {
+      await FirebaseFirestore.instance.collection('patient_stories').add({
+        'title': _titleController.text.trim(),
+        'story': _storyController.text.trim(),
+        'category': _selectedCategory,
+        'timestamp': Timestamp.now(),
+        'userId': _currentUserId,
+        'userName': _currentUserName, // save userName here
+      });
 
-    // Clear form
-    setState(() {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Story submitted successfully!')),
+      );
+
+      _titleController.clear();
       _storyController.clear();
-      _selectedCategory = null;
-      _selectedImage = null;
-    });
+      setState(() {
+        _selectedCategory = null;
+        _isSubmitting = false;
+      });
+    } catch (e) {
+      setState(() => _isSubmitting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error submitting story: $e')),
+      );
+    }
   }
 
   @override
@@ -60,10 +109,16 @@ class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
           IconButton(
             icon: Icon(Icons.folder_shared),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyPostedstoriesPage()),
-              );
+              if (_currentUserId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyPostedstoriesPage(userId: _currentUserId!)),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('User not loaded yet.')),
+                );
+              }
             },
             tooltip: 'My Cases',
           )
@@ -75,6 +130,14 @@ class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Tell us your health journey', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                hintText: 'Enter story title...',
+                border: OutlineInputBorder(),
+              ),
+            ),
             SizedBox(height: 10),
             TextField(
               controller: _storyController,
@@ -96,29 +159,15 @@ class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
               }).toList(),
               onChanged: (val) => setState(() => _selectedCategory = val),
             ),
-            SizedBox(height: 16),
-            Text('Attach Reports or Test Results'),
-            SizedBox(height: 8),
-            GestureDetector(
-              onTap: _pickImage,
-              child: Container(
-                height: 150,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepPurple),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: _selectedImage != null
-                    ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                    : Center(child: Icon(Icons.add_a_photo, color: Colors.deepPurple)),
-              ),
-            ),
             SizedBox(height: 20),
             ElevatedButton.icon(
-              icon: Icon(Icons.send ,color: Colors.white),
-              label: Text('Submit Story',style: TextStyle(color: Colors.white)),
+              icon: Icon(Icons.send, color: Colors.white),
+              label: Text(
+                _isSubmitting ? 'Submitting...' : 'Submit Story',
+                style: TextStyle(color: Colors.white),
+              ),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-              onPressed: _submitStory,
+              onPressed: _isSubmitting ? null : _submitStory,
             ),
           ],
         ),
@@ -126,3 +175,4 @@ class _ShareYourStoriesPageState extends State<ShareYourStoriesPage> {
     );
   }
 }
+

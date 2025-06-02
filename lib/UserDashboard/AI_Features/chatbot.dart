@@ -284,16 +284,16 @@ RULES:
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (message.user != currentUser)
-                  // Padding(
-                  //   padding: const EdgeInsets.only(bottom: 4),
-                  //   child: Text(
-                  //     'Dr. AI',
-                  //     style: const TextStyle(
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Colors.deepPurple,
-                  //     ),
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Text(
+                      '',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
                 MarkdownBody(
                   data: message.text,
                   styleSheet: MarkdownStyleSheet(
@@ -368,38 +368,28 @@ RULES:
       }, onDone: () async {
         setState(() {
           _isTyping = false;
-          _currentSession.messages = messages; // Sync latest messages
         });
-        await _saveChatHistory(); // Save after sync
-      }, onError: (error) {
+        await _saveChatHistory(); // Save after AI finishes responding
+      }, onError: (e) {
         setState(() {
           _isTyping = false;
         });
-        ChatMessage errorMsg = ChatMessage(
-          user: doctorAI,
-          createdAt: DateTime.now(),
-          text:
-          "Sorry, there was an issue processing your message. Please try again.",
+        debugPrint("Error generating AI response: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${e.toString()}")),
         );
-        setState(() {
-          messages = [errorMsg, ...messages];
-        });
       });
     } catch (e) {
       setState(() {
         _isTyping = false;
       });
-      ChatMessage errorMsg = ChatMessage(
-        user: doctorAI,
-        createdAt: DateTime.now(),
-        text:
-        "An unexpected error occurred. Please check your input or try again later.",
+      debugPrint("Exception while sending message: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to send message. Please try again.")),
       );
-      setState(() {
-        messages = [errorMsg, ...messages];
-      });
     }
   }
+
 
 
 

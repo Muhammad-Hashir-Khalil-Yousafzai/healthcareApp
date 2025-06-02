@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../CommonScreens/AI assistant/ai_assistant_screen.dart';
 import '../CommonScreens/Diet/recommended_foods_screen.dart';
+import 'Screens/Doctor/Doctors.dart';
 import 'Screens/Precautions/Do.dart';
 import 'Screens/Predictions/heart_prediction_screen.dart';
 import 'Screens/Symptoms/symptoms_navigation_screen.dart'; // Heart Prediction Screen
@@ -7,7 +9,7 @@ import 'Screens/Predictions/lungs_prediction_screen.dart'; // Physical Predictio
 import 'Screens/Predictions/mental_prediction_screen.dart'; // Mental Prediction Screen
 import 'Screens/Predictions/bp_prediction_screen.dart';
 import 'Screens/Predictions/diabetes_prediction_screen.dart';
-import 'package:healthcare/UserDashboard/Categories/CommonScreens/AI assistant/ai_assistant_screen.dart';
+// import 'package:healthcare/UserDashboard/Categories/CommonScreens/AI assistant/ai_assistant_screen.dart';
 // Add more screens as needed for each category
 
 class NewScreen extends StatelessWidget {
@@ -21,7 +23,7 @@ class NewScreen extends StatelessWidget {
     {'title': 'Precautions', 'icon': Icons.security},
     {'title': 'Prediction', 'icon': Icons.analytics},
     {'title': 'Diet', 'icon': Icons.restaurant},
-    {'title': 'Doctor', 'icon': Icons.medical_services},
+    {'title': 'Doctors', 'icon': Icons.medical_services},
     {'title': 'AI Consultant', 'icon': Icons.smart_toy},
   ];
 
@@ -79,6 +81,13 @@ class NewScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AIAssistantScreen(categoryTitle: categoryTitle)),
+                    );
+                  }
+                  else if (item['title'] == 'Doctors') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DoctorListScreen(categoryTitle: categoryTitle)),
                     );
                   }
                   else if (item['title'] == 'Symptoms') {

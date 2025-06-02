@@ -3,6 +3,7 @@ import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'package:healthcare/UserDashboard/Login_Signup/authgate.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'Doctor Dashboard/Home/dr_home.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
@@ -27,7 +28,7 @@ class HealthcareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Authgate(),
+      home: HomePage(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.deepPurple, // Deep purple background color

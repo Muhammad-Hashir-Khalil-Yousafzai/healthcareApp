@@ -168,7 +168,7 @@ class _PredictorScreenState extends State<PredictorScreen> {
     setState(() => isLoading = true);
 
     try {
-      final url = Uri.parse(' http://192.168.43.209:5000/predict');
+      final url = Uri.parse('http://192.168.43.209:5000/predict');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},

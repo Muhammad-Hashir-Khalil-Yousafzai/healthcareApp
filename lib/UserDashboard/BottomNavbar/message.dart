@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
 import 'Others.dart';
-import 'profile.dart';
+import 'AI_Features.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -163,7 +163,7 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Messages',
-            style: TextStyle(color: const Color.fromARGB(255, 100, 75, 75))),
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
         iconTheme: IconThemeData(color: Colors.white),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'appointment_calendar.dart';
+import 'dart:convert';
 
 class DoctorDetailsScreen extends StatefulWidget {
   final String docId;
@@ -107,14 +108,20 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                 Colors.black.withOpacity(0.2),
                 BlendMode.darken,
               ),
-              child: Image.network(
-                basicInfo['profileImage'] ?? 'assets/images/doctor1.png',
+              child: doctorData?['profileImageBase64'] != null
+                  ? Image.memory(
+                base64Decode(doctorData!['profileImageBase64']),
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Image.asset(
                   'assets/images/doctor1.png',
                   fit: BoxFit.cover,
                 ),
+              )
+                  : Image.asset(
+                'assets/images/doctor1.png',
+                fit: BoxFit.cover,
               ),
+
             ),
           ),
 

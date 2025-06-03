@@ -18,6 +18,8 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
   int? _slotDuration; // in minutes
   List<TimeSlot> _slots = [];
   bool _isLoading = false;
+  Set<int> _selectedSlotIndexes = {}; // For multi-select
+  bool _multiSelectMode = false;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -174,6 +176,144 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
     }
   }
 
+  Future<void> _deleteAllSlotsForDate() async {
+    if (_selectedDate == null) return;
+    final formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete All Slots?'),
+        content:
+        Text('Are you sure you want to delete all slots for this date?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    setState(() => _isLoading = true);
+    final batch = _firestore.batch();
+    final existingSlots = await _firestore
+        .collection('doctors')
+        .doc(widget.doctorId)
+        .collection('slots')
+        .where('date', isEqualTo: formattedDate)
+        .get();
+    for (var doc in existingSlots.docs) {
+      batch.delete(doc.reference);
+    }
+    try {
+      await batch.commit();
+      setState(() => _slots = []);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('All slots deleted.'),
+          backgroundColor: Colors.deepPurple));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _deleteSlot(int index) async {
+    final slot = _slots[index];
+    final formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Slot?'),
+        content: Text('Delete slot at ${slot.startTime.format(context)}?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    setState(() => _isLoading = true);
+    final query = await _firestore
+        .collection('doctors')
+        .doc(widget.doctorId)
+        .collection('slots')
+        .where('date', isEqualTo: formattedDate)
+        .where('startTime', isEqualTo: TimeSlot._formatTime(slot.startTime))
+        .get();
+    for (var doc in query.docs) {
+      await doc.reference.delete();
+    }
+    setState(() {
+      _slots.removeAt(index);
+      _isLoading = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Slot deleted.'), backgroundColor: Colors.deepPurple));
+  }
+
+  Future<void> _deleteSelectedSlots() async {
+    if (_selectedSlotIndexes.isEmpty) return;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Selected Slots?'),
+        content: Text('Delete ${_selectedSlotIndexes.length} selected slots?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    setState(() => _isLoading = true);
+    final formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    final batch = _firestore.batch();
+    for (final idx in _selectedSlotIndexes) {
+      final slot = _slots[idx];
+      final query = await _firestore
+          .collection('doctors')
+          .doc(widget.doctorId)
+          .collection('slots')
+          .where('date', isEqualTo: formattedDate)
+          .where('startTime', isEqualTo: TimeSlot._formatTime(slot.startTime))
+          .get();
+      for (var doc in query.docs) {
+        batch.delete(doc.reference);
+      }
+    }
+    try {
+      await batch.commit();
+      setState(() {
+        _slots = [
+          for (int i = 0; i < _slots.length; i++)
+            if (!_selectedSlotIndexes.contains(i)) _slots[i]
+        ];
+        _selectedSlotIndexes.clear();
+        _multiSelectMode = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Selected slots deleted.'),
+          backgroundColor: Colors.deepPurple));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,6 +323,33 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
         backgroundColor: Colors.deepPurple,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
+          if (_slots.isNotEmpty && !_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.delete_forever),
+              tooltip: 'Delete all slots for this date',
+              onPressed: _deleteAllSlotsForDate,
+            ),
+          if (_slots.isNotEmpty && !_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.select_all),
+              tooltip: 'Select multiple slots',
+              onPressed: () => setState(() => _multiSelectMode = true),
+            ),
+          if (_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete selected slots',
+              onPressed: _deleteSelectedSlots,
+            ),
+          if (_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.close),
+              tooltip: 'Cancel multi-select',
+              onPressed: () => setState(() {
+                _multiSelectMode = false;
+                _selectedSlotIndexes.clear();
+              }),
+            ),
           IconButton(
             icon: const Icon(Icons.view_list),
             onPressed: () {
@@ -270,18 +437,84 @@ class _ManageSlotsScreenState extends State<ManageSlotsScreen> {
                   const SizedBox(height: 10),
                   Wrap(
                     spacing: 10,
-                    children: _slots
-                        .map((slot) => Chip(
-                      label: Text(slot.startTime.format(context)),
-                      backgroundColor: slot.isBooked
-                          ? Colors.red.shade100
-                          : Colors.deepPurple.shade100,
-                      labelStyle: TextStyle(
-                        color:
-                        slot.isBooked ? Colors.red : Colors.deepPurple,
-                      ),
-                    ))
-                        .toList(),
+                    children: List.generate(_slots.length, (i) {
+                      final slot = _slots[i];
+                      final selected = _selectedSlotIndexes.contains(i);
+                      return GestureDetector(
+                        onTap: _multiSelectMode
+                            ? () {
+                          setState(() {
+                            if (selected) {
+                              _selectedSlotIndexes.remove(i);
+                            } else {
+                              _selectedSlotIndexes.add(i);
+                            }
+                          });
+                        }
+                            : () async {
+                          // If slots are not yet saved (i.e., just generated), delete locally
+                          final confirm = await showDialog<bool>(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Delete Slot?'),
+                              content: Text(
+                                  'Delete slot at ${slot.startTime.format(context)}?'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(ctx, false),
+                                    child: const Text('Cancel')),
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(ctx, true),
+                                    child: const Text('Delete',
+                                        style: TextStyle(
+                                            color: Colors.red))),
+                              ],
+                            ),
+                          );
+                          if (confirm == true) {
+                            setState(() {
+                              _slots.removeAt(i);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Slot removed.'),
+                                  backgroundColor: Colors.deepPurple),
+                            );
+                          }
+                        },
+                        onLongPress: !_multiSelectMode
+                            ? () => setState(() {
+                          _multiSelectMode = true;
+                          _selectedSlotIndexes.add(i);
+                        })
+                            : null,
+                        child: Chip(
+                          label: Text(slot.startTime.format(context)),
+                          backgroundColor: selected
+                              ? Colors.red.shade200
+                              : slot.isBooked
+                              ? Colors.red.shade100
+                              : Colors.deepPurple.shade100,
+                          labelStyle: TextStyle(
+                            color: selected
+                                ? Colors.red
+                                : slot.isBooked
+                                ? Colors.red
+                                : Colors.deepPurple,
+                          ),
+                          avatar: _multiSelectMode
+                              ? Icon(
+                            selected
+                                ? Icons.check_circle
+                                : Icons.circle_outlined,
+                            color: selected ? Colors.red : Colors.grey,
+                          )
+                              : null,
+                        ),
+                      );
+                    }),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
@@ -377,6 +610,8 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
   Map<String, List<TimeSlot>> _groupedSlots = {};
   bool _isLoading = true;
   String? _error;
+  bool _multiSelectMode = false;
+  final Set<_SlotSelection> _selectedSlots = {};
 
   @override
   void initState() {
@@ -392,7 +627,6 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
 
     try {
       print('Fetching slots for doctor: \\${widget.doctorId}');
-
 
       final snapshot = await _firestore
           .collection('doctors')
@@ -435,7 +669,8 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
       print('Error loading slots: \\${e}');
       String errorMsg = 'Failed to load slots: \\${e.toString()}';
       if (e.toString().contains('failed-precondition')) {
-        errorMsg = 'Firestore requires a composite index for this query. Please create the index in the Firebase console as suggested in the error message.';
+        errorMsg =
+        'Firestore requires a composite index for this query. Please create the index in the Firebase console as suggested in the error message.';
       }
       setState(() {
         _error = errorMsg;
@@ -457,6 +692,59 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
     }
   }
 
+  Future<void> _deleteSelectedSlots() async {
+    if (_selectedSlots.isEmpty) return;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Selected Slots?'),
+        content: Text('Delete ${_selectedSlots.length} selected slots?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    setState(() => _isLoading = true);
+    final batch = _firestore.batch();
+    for (final sel in _selectedSlots) {
+      final snapshot = await _firestore
+          .collection('doctors')
+          .doc(widget.doctorId)
+          .collection('slots')
+          .where('date', isEqualTo: sel.date)
+          .where('startTime',
+          isEqualTo: TimeSlot._formatTime(sel.slot.startTime))
+          .get();
+      for (var doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+    }
+    try {
+      await batch.commit();
+      setState(() {
+        for (final sel in _selectedSlots) {
+          _groupedSlots[sel.date]?.remove(sel.slot);
+        }
+        _selectedSlots.clear();
+        _multiSelectMode = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Selected slots deleted.'),
+          backgroundColor: Colors.deepPurple));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -465,6 +753,21 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
         backgroundColor: Colors.deepPurple,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
+          if (_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete selected slots',
+              onPressed: _deleteSelectedSlots,
+            ),
+          if (_multiSelectMode)
+            IconButton(
+              icon: const Icon(Icons.close),
+              tooltip: 'Cancel multi-select',
+              onPressed: () => setState(() {
+                _multiSelectMode = false;
+                _selectedSlots.clear();
+              }),
+            ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadSlots,
@@ -507,37 +810,49 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
               margin: const EdgeInsets.only(bottom: 16),
               child: ExpansionTile(
                 title: Text("Date: ${entry.key}"),
-                children: entry.value
-                    .map((slot) => ListTile(
-                  leading: const Icon(Icons.schedule,
-                      color: Colors.deepPurple),
-                  title: Text(
-                    "${slot.startTime.format(context)} - ${slot.endTime.format(context)}",
-                  ),
-                  trailing: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(
-                          slot.status ?? 'available'),
-                      borderRadius:
-                      BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      slot.status ?? 'available',
-                      style: const TextStyle(
-                          color: Colors.white),
-                    ),
-                  ),
-                  subtitle: slot.isBooked
-                      ? const Text("Booked",
-                      style: TextStyle(
-                          color: Colors.red))
-                      : const Text("Available",
-                      style: TextStyle(
-                          color: Colors.green)),
-                ))
-                    .toList(),
+                children: entry.value.map((slot) {
+                  final sel =
+                  _SlotSelection(date: entry.key, slot: slot);
+                  final selected = _selectedSlots.contains(sel);
+                  return ListTile(
+                    leading: const Icon(Icons.schedule,
+                        color: Colors.deepPurple),
+                    title: Text(
+                        "${slot.startTime.format(context)} - ${slot.endTime.format(context)}"),
+                    trailing: _multiSelectMode
+                        ? Icon(
+                        selected
+                            ? Icons.check_circle
+                            : Icons.circle_outlined,
+                        color: selected
+                            ? Colors.red
+                            : Colors.grey)
+                        : null,
+                    subtitle: slot.isBooked
+                        ? const Text("Booked",
+                        style: TextStyle(color: Colors.red))
+                        : const Text("Available",
+                        style:
+                        TextStyle(color: Colors.green)),
+                    onTap: _multiSelectMode
+                        ? () {
+                      setState(() {
+                        if (selected) {
+                          _selectedSlots.remove(sel);
+                        } else {
+                          _selectedSlots.add(sel);
+                        }
+                      });
+                    }
+                        : null,
+                    onLongPress: !_multiSelectMode
+                        ? () => setState(() {
+                      _multiSelectMode = true;
+                      _selectedSlots.add(sel);
+                    })
+                        : null,
+                  );
+                }).toList(),
               ),
             );
           }).toList(),
@@ -545,4 +860,19 @@ class _ViewAllSlotsScreenState extends State<ViewAllSlotsScreen> {
       ),
     );
   }
+}
+
+class _SlotSelection {
+  final String date;
+  final TimeSlot slot;
+  const _SlotSelection({required this.date, required this.slot});
+  @override
+  bool operator ==(Object other) =>
+      other is _SlotSelection &&
+          other.date == date &&
+          other.slot.startTime == slot.startTime &&
+          other.slot.endTime == slot.endTime;
+  @override
+  int get hashCode =>
+      date.hashCode ^ slot.startTime.hashCode ^ slot.endTime.hashCode;
 }

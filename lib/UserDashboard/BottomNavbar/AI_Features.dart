@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthcare/UserDashboard/Home/Home.dart';
-import '../../Doctor Dashboard/Home/chatbot.dart';
+import '../AI_Features/chatbot.dart';
 import '../AI_Features/disease_predictor.dart';
 import 'Others/HealthBot.dart';
 import 'message.dart';

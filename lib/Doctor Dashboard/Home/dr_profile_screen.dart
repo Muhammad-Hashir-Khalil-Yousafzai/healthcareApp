@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/dr_profile_edit.dart';
+import 'package:healthcare/Bit64Function/image_utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,12 +16,40 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   Map<String, dynamic>? _doctorData;
   bool _isLoading = true;
+  File? _pickedImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
     _loadProfileData();
   }
+
+  Future<void> _pickAndUploadImage() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 75);
+      if (pickedFile == null) return;
+
+      final imageFile = File(pickedFile.path);
+      setState(() {
+        _pickedImage = imageFile;
+      });
+
+      final base64Str = await imageFileToBase64(imageFile);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(user.uid)
+            .update({'profileImageBase64': base64Str});
+        // Refresh profile data to show new image
+        await _loadProfileData();
+      }
+    } catch (e) {
+      debugPrint('Error picking/uploading image: $e');
+    }
+  }
+
 
   Future<void> _loadProfileData() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -130,28 +161,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.deepPurple.withOpacity(0.2),
                       width: 3,
                     ),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/doctor2.png'),
-                      fit: BoxFit.cover,
-                    ),
+                  ),
+                  child: ClipOval(
+                    child: _doctorData != null && _doctorData!['profileImageBase64'] != null
+                        ? base64ToImageWidget(_doctorData!['profileImageBase64'])
+                        : _pickedImage != null
+                        ? Image.file(_pickedImage!, fit: BoxFit.cover)
+                        : Image.asset('assets/images/doctor2.png', fit: BoxFit.cover),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    shape: BoxShape.circle,
-                    border: Border.all(
+
+                GestureDetector(
+                  onTap: _pickAndUploadImage,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt,
                       color: Colors.white,
-                      width: 2,
+                      size: 18,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.white,
-                    size: 18,
-                  ),
                 ),
+
               ],
             ),
             const SizedBox(height: 20),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MarkedCases extends StatefulWidget {
@@ -6,59 +8,63 @@ class MarkedCases extends StatefulWidget {
 }
 
 class _MarkedCasesState extends State<MarkedCases> {
-  final List<Map<String, String>> bookmarkedCases = [
-    {
-      "title": "Heart Attack",
-      "description": "Severe chest pain radiating to left arm, sweating, and shortness of breath.",
-      "category": "Cardiac"
-    },
-    {
-      "title": "Type 2 Diabetes",
-      "description": "Fatigue, increased thirst, frequent urination, blurred vision, and slow wound healing.",
-      "category": "Diabetes"
-    },
-    {
-      "title": "Anxiety Disorder",
-      "description": "Restlessness, rapid heartbeat, excessive worrying, sweating, sleep issues.",
-      "category": "Mental"
-    },
-  ];
-
+  List<Map<String, dynamic>> bookmarkedCases = [];
   String searchQuery = "";
   String selectedCategory = "All";
-  List<String> categories = ["All", "Cardiac", "Diabetes", "Lungs", "Kidney", "Mental"];
+  List<String> categories = ["All", "Heart", "Diabetes", "Lungs", "BP", "Mental"];
 
-  void _removeBookmark(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Remove Bookmark"),
-        content: Text("Are you sure you want to remove this case from bookmarks?"),
-        actions: [
-          TextButton(
-            child: Text("Cancel"),
-            onPressed: () => Navigator.pop(context),
-          ),
-          TextButton(
-            child: Text("Remove", style: TextStyle(color: Colors.red)),
-            onPressed: () {
-              setState(() {
-                bookmarkedCases.removeAt(index);
-              });
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
+  final userId = FirebaseAuth.instance.currentUser?.uid;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBookmarkedCases();
+  }
+
+  Future<void> fetchBookmarkedCases() async {
+    if (userId == null) return;
+
+    final doctorDoc = await FirebaseFirestore.instance.collection('doctors').doc(userId).get();
+    final savedCaseIds = List<String>.from(doctorDoc.data()?['saved_cases'] ?? []);
+
+    if (savedCaseIds.isEmpty) return;
+
+    final casesSnapshot = await FirebaseFirestore.instance
+        .collection('Findcases')
+        .where(FieldPath.documentId, whereIn: savedCaseIds)
+        .get();
+
+    setState(() {
+      bookmarkedCases = casesSnapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          "id": doc.id,
+          "title": data["title"] ?? "",
+          "details": data["details"] ?? "", // updated field name
+          "category": data["category"] ?? "",
+        };
+      }).toList();
+    });
+  }
+
+  Future<void> _removeBookmark(String caseId) async {
+    if (userId == null) return;
+
+    final docRef = FirebaseFirestore.instance.collection('doctors').doc(userId);
+    final doc = await docRef.get();
+    List<dynamic> saved = doc.data()?['saved_cases'] ?? [];
+
+    saved.remove(caseId);
+    await docRef.update({"saved_cases": saved});
+    fetchBookmarkedCases();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> filteredCases = bookmarkedCases.where((caseItem) {
+    List<Map<String, dynamic>> filteredCases = bookmarkedCases.where((caseItem) {
       final matchCategory = selectedCategory == "All" || caseItem["category"] == selectedCategory;
-      final matchSearch = caseItem["title"]!.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          caseItem["description"]!.toLowerCase().contains(searchQuery.toLowerCase());
+      final matchSearch = caseItem["title"].toLowerCase().contains(searchQuery.toLowerCase()) ||
+          caseItem["details"].toLowerCase().contains(searchQuery.toLowerCase()); // updated
       return matchCategory && matchSearch;
     }).toList();
 
@@ -73,7 +79,6 @@ class _MarkedCasesState extends State<MarkedCases> {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            // 🔍 Search
             TextField(
               decoration: InputDecoration(
                 hintText: "Search by keyword...",
@@ -92,8 +97,6 @@ class _MarkedCasesState extends State<MarkedCases> {
               },
             ),
             const SizedBox(height: 12),
-
-            // 🧠 Category Filter
             SizedBox(
               height: 40,
               child: ListView.builder(
@@ -112,7 +115,7 @@ class _MarkedCasesState extends State<MarkedCases> {
                       labelStyle: TextStyle(
                         color: isSelected ? Colors.white : Colors.black,
                       ),
-                      onSelected: (bool selected) {
+                      onSelected: (_) {
                         setState(() {
                           selectedCategory = category;
                         });
@@ -123,8 +126,6 @@ class _MarkedCasesState extends State<MarkedCases> {
               ),
             ),
             const SizedBox(height: 12),
-
-            // 📋 Bookmarked Cases
             Expanded(
               child: filteredCases.isEmpty
                   ? const Center(child: Text("No bookmarked cases found", style: TextStyle(color: Colors.grey)))
@@ -139,7 +140,7 @@ class _MarkedCasesState extends State<MarkedCases> {
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16),
                       title: Text(
-                        caseItem["title"]!,
+                        caseItem["title"],
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -147,12 +148,12 @@ class _MarkedCasesState extends State<MarkedCases> {
                         ),
                       ),
                       subtitle: Text(
-                        caseItem["description"]!,
+                        caseItem["details"].split(' ').take(20).join(' ') + '...',
                         style: const TextStyle(fontSize: 14),
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.bookmark, color: Colors.deepPurple),
-                        onPressed: () => _removeBookmark(index),
+                        onPressed: () => _removeBookmark(caseItem["id"]),
                       ),
                       onTap: () => _showCaseDetails(context, caseItem),
                     ),
@@ -166,8 +167,7 @@ class _MarkedCasesState extends State<MarkedCases> {
     );
   }
 
-  // 👁️ Modal Bottom Sheet
-  void _showCaseDetails(BuildContext context, Map<String, String> caseItem) {
+  void _showCaseDetails(BuildContext context, Map<String, dynamic> caseItem) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.deepPurple[50],
@@ -182,7 +182,7 @@ class _MarkedCasesState extends State<MarkedCases> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                caseItem["title"]!,
+                caseItem["title"],
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -190,7 +190,11 @@ class _MarkedCasesState extends State<MarkedCases> {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(caseItem["description"]!, style: const TextStyle(fontSize: 16)),
+              Text(
+                caseItem["details"].split(' ').take(20).join(' ') + '...',
+                style: const TextStyle(fontSize: 16),
+              ),
+
               const SizedBox(height: 20),
               Row(
                 children: [

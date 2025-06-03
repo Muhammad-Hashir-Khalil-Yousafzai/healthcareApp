@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthcare/UserDashboard/Categories/DiseaseCategory/categories.dart';
@@ -13,6 +15,8 @@ import 'dart:async';
 import '../BottomNavbar/Others.dart';
 import '../BottomNavbar/AI_Features.dart';
 import '../../Doctor Dashboard/Home/dr_home.dart';
+import 'dart:convert';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -62,24 +66,33 @@ class HomePageState extends State<HomePage> {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('doctors')
-      // Limit to 6 featured doctors
           .get();
 
       setState(() {
         doctors = querySnapshot.docs.map((doc) {
           final data = doc.data();
+
+          String? base64String = data['profileImageBase64']; // **directly from root**
+          Uint8List? imageBytes;
+          if (base64String != null && base64String.isNotEmpty) {
+            try {
+              imageBytes = base64Decode(base64String);
+            } catch (e) {
+              print('Error decoding base64 image for doctor ${doc.id}: $e');
+            }
+          }
+
           return {
-            'id': doc.id, // Important for navigation
-            'name': data['basicInfo']['name'] ?? 'Dr. Unknown',
-            'image': data['basicInfo']['profileImage'] ??
-                'assets/images/doctor1.png',
-            'specialty':
-            data['professionalInfo']['specialty'] ?? 'General Practitioner',
-            'experience': data['professionalInfo']['experience'] ?? 0,
-            'rating': 4.9, // You can add this to your doctor document
-            'status': data['status']
+            'id': doc.id,
+            'name': data['basicInfo']?['name'] ?? 'Dr. Unknown',
+            'email': data['basicInfo']?['email'] ?? 'noemail@example.com',
+            'imageBytes': imageBytes,
+            'specialty': data['professionalInfo']?['specialty'] ?? 'General Practitioner',
+            'experience': data['professionalInfo']?['experience'] ?? 0,
+            'status': data['status'] ?? 'offline'
           };
         }).toList();
+
         _isLoadingDoctors = false;
       });
     } catch (e) {
@@ -89,6 +102,9 @@ class HomePageState extends State<HomePage> {
       });
     }
   }
+
+
+
 
   final List<Map<String, String>> categories = [
     {'title': 'Heart', 'image': 'assets/images/heart2.png'},
@@ -470,15 +486,14 @@ class HomePageState extends State<HomePage> {
                           alignment: Alignment.bottomRight,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                doctor['image'] ??
-                                    'assets/images/doctor1.png',
-                              ),
                               radius: 40,
                               backgroundColor: Colors.grey[200],
-                              onBackgroundImageError: (_, __) =>
-                              const Icon(Icons.person, size: 40),
+                              backgroundImage: doctor['imageBytes'] != null
+                                  ? MemoryImage(doctor['imageBytes'])
+                                  : AssetImage('assets/images/doctor1.png') as ImageProvider,
+                              onBackgroundImageError: (_, __) => Icon(Icons.person, size: 40),
                             ),
+
                             if (doctor['status'] == true)
                               Positioned(
                                 top: 0,

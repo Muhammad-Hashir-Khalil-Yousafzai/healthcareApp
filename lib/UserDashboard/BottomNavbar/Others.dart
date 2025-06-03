@@ -66,7 +66,7 @@ class _OtherScreenState extends State<OtherScreen> {
         children: [
           ListTile(
             leading: Icon(Icons.person, color: Colors.deepPurple),
-            title: Text('Get Your Doctor'),
+            title: Text('Find Me a Doctor!'),
             subtitle: Text('Let doctors discover and respond to your case voluntarily.'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {

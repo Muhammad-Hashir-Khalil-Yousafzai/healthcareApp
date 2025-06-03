@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'MyPostedCases.dart';
 
@@ -15,57 +18,111 @@ class _FindCasesPageState extends State<FindCasesPage> {
   final TextEditingController _problemTitleController = TextEditingController();
   final TextEditingController _problemDetailController = TextEditingController();
   String? _selectedCategory;
+  File? _selectedImage;
+  String? _currentUserId;
+  String? _currentUserName;
+
   final List<String> _categories = [
     'Heart',
     'Lungs',
-    'Mental Health',
+    'Mental',
     'Diabetes',
     'Surgery',
     'BP',
     'Other'
   ];
-  File? _selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCurrentUser();
+  }
+
+  Future<void> _fetchCurrentUser() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final usersSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: currentUser.email)
+          .limit(1)
+          .get();
+
+      if (usersSnapshot.docs.isNotEmpty) {
+        final userDoc = usersSnapshot.docs.first;
+        setState(() {
+          _currentUserId = userDoc.id;
+          _currentUserName = userDoc.data()['name'] ?? 'Unknown';
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('User not found in users collection.')),
+        );
+      }
+    }
+  }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(source: ImageSource.gallery);
-
     if (picked != null) {
       setState(() => _selectedImage = File(picked.path));
     }
   }
 
-  void _submitCase() {
+  Future<String?> _convertImageToBase64(File? image) async {
+    if (image == null) return null;
+    List<int> imageBytes = await image.readAsBytes();
+    return base64Encode(imageBytes);
+  }
+
+  Future<void> _submitCase() async {
     if (_problemTitleController.text.trim().isEmpty ||
         _problemDetailController.text.trim().isEmpty ||
         _selectedCategory == null ||
-        _selectedImage == null) {
+        _currentUserId == null ||
+        _currentUserName == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please complete all fields and attach a report')),
+        const SnackBar(content: Text('Please complete all required fields.')),
       );
       return;
     }
 
-    // TODO: Submit logic here
+    try {
+      String? base64Image = await _convertImageToBase64(_selectedImage);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Case submitted successfully!')),
-    );
+      await FirebaseFirestore.instance.collection('Findcases').add({
+        'title': _problemTitleController.text.trim(),
+        'details': _problemDetailController.text.trim(),
+        'category': _selectedCategory,
+        'imageBase64': base64Image ?? '', // Store empty string if no image
+        'timestamp': Timestamp.now(),
+        'userId': _currentUserId,
+        'userName': _currentUserName,
+      });
 
-    // Clear form
-    setState(() {
-      _problemTitleController.clear();
-      _problemDetailController.clear();
-      _selectedCategory = null;
-      _selectedImage = null;
-    });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Case submitted successfully!')),
+      );
+
+      // Clear form
+      setState(() {
+        _problemTitleController.clear();
+        _problemDetailController.clear();
+        _selectedCategory = null;
+        _selectedImage = null;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error submitting case: $e')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find Health Cases', style: TextStyle(color: Colors.white)),
+        title: const Text('Find Me A Doctor', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
@@ -73,9 +130,12 @@ class _FindCasesPageState extends State<FindCasesPage> {
             icon: const Icon(Icons.folder_shared),
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyPostedCasesPage()),
-              );
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyPostedCasesPage(userId: _currentUserId!),
+              ),
+            );
+
             },
             tooltip: 'My Cases',
           )
@@ -92,21 +152,11 @@ class _FindCasesPageState extends State<FindCasesPage> {
             ),
             const SizedBox(height: 12),
 
+            // Title
             TextField(
               controller: _problemTitleController,
               decoration: const InputDecoration(
                 labelText: 'Title',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Problem Statement
-            TextField(
-              controller: _problemTitleController,
-              decoration: const InputDecoration(
-                labelText: 'Problem Statement',
-                hintText: 'Describe Your problem in short words',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -138,7 +188,7 @@ class _FindCasesPageState extends State<FindCasesPage> {
             ),
             const SizedBox(height: 16),
 
-            const Text('Attach Medical Report / Test Result'),
+            const Text('Attach Medical Report / Test Result (Optional)'),
             const SizedBox(height: 8),
 
             GestureDetector(
@@ -162,6 +212,7 @@ class _FindCasesPageState extends State<FindCasesPage> {
             ),
             const SizedBox(height: 20),
 
+            // Submit Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(

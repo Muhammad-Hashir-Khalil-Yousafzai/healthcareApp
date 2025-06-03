@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Ad%20Banners/adbanners.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/HealthReels/HealthReels.dart';
 import 'package:healthcare/Doctor%20Dashboard/Catagories/Location/location.dart';
-import 'package:healthcare/Doctor%20Dashboard/Home/chatbot.dart';
+
 import 'package:healthcare/Doctor%20Dashboard/Home/message_screen.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/postArticles.dart';
 import 'package:healthcare/Doctor%20Dashboard/Home/upload_chat.dart';

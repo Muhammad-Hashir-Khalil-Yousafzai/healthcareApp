@@ -44,7 +44,7 @@ RULES:
     id: "1",
     firstName: "HealthGuard",
     lastName: "AI",
-    profileImage: "assets/images/Assistant.png",
+    profileImage: "assets/images/ai_consultant.png",
   );
 
   final List<ChatSession> _allSessions = [];
@@ -178,44 +178,83 @@ RULES:
 
   Widget _buildChatHistoryDrawer() {
     return Drawer(
-      child: Column(
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: Colors.deepPurple),
-            child: const Center(
-              child: Text(
-                'Your Chats',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.chat_bubble_outline, color: Colors.white, size: 40),
+                    SizedBox(height: 10),
+                    Text(
+                      'Your Consultations',
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _allSessions.length,
-              itemBuilder: (ctx, index) {
-                final session = _allSessions[index];
-                return ListTile(
-                  title: Text(session.title),
-                  subtitle: Text(
-                    '${session.messages.length} messages',
-                    style: const TextStyle(fontSize: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _deleteChat(session.id),
-                  ),
-                  onTap: () {
-                    _switchChat(session.id);
-                    Navigator.pop(context);
-                  },
-                  tileColor: session.id == _currentSession.id
-                      ? Colors.deepPurple
-                      : null,
-                );
-              },
+                  minimumSize: const Size.fromHeight(45),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _startNewChat();
+                },
+                icon: const Icon(Icons.add, color: Colors.white),
+                label: const Text("Start New Chat", style: TextStyle(color: Colors.white)),
+              ),
             ),
-          ),
-        ],
+            const Divider(height: 20, thickness: 1),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+              child: Text("Previous Sessions", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            Expanded(
+              child: _allSessions.isEmpty
+                  ? const Center(child: Text("No chat history found."))
+                  : ListView.separated(
+                itemCount: _allSessions.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (ctx, index) {
+                  final session = _allSessions[index];
+                  final bool isCurrent = session.id == _currentSession.id;
+                  return ListTile(
+                    leading: const Icon(Icons.chat, color: Colors.deepPurple),
+                    title: Text(session.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    subtitle: Text("${session.messages.length} messages", style: const TextStyle(fontSize: 12)),
+                    tileColor: isCurrent ? Colors.deepPurple.shade50 : null,
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () => _deleteChat(session.id),
+                    ),
+                    onTap: () {
+                      _switchChat(session.id);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -237,7 +276,7 @@ RULES:
   Widget _buildDisclaimerBanner() {
     return Container(
       padding: const EdgeInsets.all(8),
-      color: Colors.deepPurple,
+      color: Colors.deepPurple.shade50,
       child: const Text(
         'Note: This AI provides general health information only. Always consult a real doctor for medical advice.',
         textAlign: TextAlign.center,
@@ -249,6 +288,22 @@ RULES:
   Widget _buildChatUI() {
     return DashChat(
       inputOptions: InputOptions(
+        inputTextStyle: const TextStyle(color: Colors.black),
+        inputDecoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.deepPurple),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: "Type your message...",
+          hintStyle: const TextStyle(color: Colors.black54),
+          filled: true,
+          fillColor: Colors.white,
+        ),
         trailing: [
           IconButton(
             icon: const Icon(Icons.medical_information),
@@ -259,7 +314,6 @@ RULES:
             icon: const Icon(Icons.image),
           ),
         ],
-        inputTextStyle: const TextStyle(color: Colors.deepPurple),
       ),
       currentUser: currentUser,
       onSend: (msg) {
@@ -267,7 +321,7 @@ RULES:
       },
       messages: messages,
       messageOptions: MessageOptions(
-        currentUserContainerColor: Colors.deepPurple,
+        currentUserContainerColor: Colors.white,
         containerColor: Colors.white,
         textColor: Colors.black,
         messageTextBuilder: (message, previousMessage, nextMessage) {
@@ -276,17 +330,13 @@ RULES:
             margin: const EdgeInsets.only(bottom: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: message.user == currentUser
-                  ? Colors.white
-                  : Colors.white,
+              color: message.user == currentUser ? Colors.white : Colors.white,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (message.user != currentUser)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                  ),
+                  const Padding(padding: EdgeInsets.only(bottom: 3)),
                 MarkdownBody(
                   data: message.text,
                   styleSheet: MarkdownStyleSheet(
@@ -306,6 +356,8 @@ RULES:
         },
       ),
     );
+
+
   }
 
   Widget _buildTypingIndicator() {
@@ -361,28 +413,38 @@ RULES:
       }, onDone: () async {
         setState(() {
           _isTyping = false;
+          _currentSession.messages = messages; // Sync latest messages
         });
-        await _saveChatHistory(); // Save after AI finishes responding
-      }, onError: (e) {
+        await _saveChatHistory(); // Save after sync
+      }, onError: (error) {
         setState(() {
           _isTyping = false;
         });
-        debugPrint("Error generating AI response: $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: ${e.toString()}")),
+        ChatMessage errorMsg = ChatMessage(
+          user: doctorAI,
+          createdAt: DateTime.now(),
+          text:
+          "Sorry, there was an issue processing your message. Please try again.",
         );
+        setState(() {
+          messages = [errorMsg, ...messages];
+        });
       });
     } catch (e) {
       setState(() {
         _isTyping = false;
       });
-      debugPrint("Exception while sending message: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to send message. Please try again.")),
+      ChatMessage errorMsg = ChatMessage(
+        user: doctorAI,
+        createdAt: DateTime.now(),
+        text:
+        "An unexpected error occurred. Please check your input or try again later.",
       );
+      setState(() {
+        messages = [errorMsg, ...messages];
+      });
     }
   }
-
 
 
 
